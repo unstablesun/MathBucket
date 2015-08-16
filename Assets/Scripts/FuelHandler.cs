@@ -235,11 +235,11 @@ public class FuelHandler : MonoBehaviour
 			Access to mainmenu this pointer
 	 -----------------------------------------------------
 	*/
-	private TitleSceneHandler getMainMenuClass()
+	private MainMenuHandler getMainMenuClass()
 	{
-		GameObject _mainmenu = GameObject.Find("TitleSceneHandler");
+		GameObject _mainmenu = GameObject.Find("MainMenuHandler");
 		if (_mainmenu != null) {
-			TitleSceneHandler _mainmenuScript = _mainmenu.GetComponent<TitleSceneHandler> ();
+			MainMenuHandler _mainmenuScript = _mainmenu.GetComponent<MainMenuHandler> ();
 			if(_mainmenuScript != null) {
 				return _mainmenuScript;
 			}

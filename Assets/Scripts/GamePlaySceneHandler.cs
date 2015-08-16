@@ -20,7 +20,7 @@ public class GamePlaySceneHandler : MonoBehaviour {
 
 	public void SetWin()
 	{
-		TitleSceneHandler.sComingFromGame = true;
+		MainMenuHandler.sComingFromGame = true;
 
 		getFuelHandlerClass ().SetMatchScore (1);
 
@@ -28,7 +28,7 @@ public class GamePlaySceneHandler : MonoBehaviour {
 	}
 	public void SetLose()
 	{
-		TitleSceneHandler.sComingFromGame = true;
+		MainMenuHandler.sComingFromGame = true;
 
 		getFuelHandlerClass ().SetMatchScore (0);
 

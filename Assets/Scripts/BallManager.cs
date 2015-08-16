@@ -7,7 +7,7 @@ public class BallManager : MonoBehaviour
 {
 
 
-	public int NumPreloaded = 56;
+	public int NumPreloaded = 32;
 	public int NumAnimsPreloaded = 32;
 
 	public static List <GameObject> BallObjects = new List<GameObject>();
@@ -118,7 +118,7 @@ public class BallManager : MonoBehaviour
 		GameObject mathBall = Instantiate(Resources.Load(prefabName, typeof(GameObject))) as GameObject;
 		
 		mathBall.name = "mathBall" + index;
-		int spanx = UnityEngine.Random.Range(-5, 5);
+		int spanx = UnityEngine.Random.Range(-2, 2);
 		mathBall.transform.position = new Vector3((float)spanx, 20f, 0f);
 		
 		MathBall _mathBallScript = mathBall.GetComponent<MathBall> ();

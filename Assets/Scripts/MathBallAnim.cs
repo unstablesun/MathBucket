@@ -6,7 +6,7 @@ public class MathBallAnim : MonoBehaviour
 	[System.Serializable]
 	public class Move
 	{
-		public float velcity = 25.0f;
+		public float velcity = 50.0f;
 		public float animTime = 1.0f;
 		public bool x_axis = false;
 		public bool y_axis = false;
