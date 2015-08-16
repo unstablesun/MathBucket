@@ -17,6 +17,13 @@ public class BallManager : MonoBehaviour
 	private float _elaspedTime = 0.0f;
 	private float _emmiterTime = 0.05f;
 
+	private int gameState = 0;
+
+	public void SetState(int s)
+	{
+		gameState = s;
+	}
+
 	void Start () 
 	{
 	
@@ -27,73 +34,87 @@ public class BallManager : MonoBehaviour
 	
 	void Update () 
 	{
-
-
-		_elaspedTime += Time.deltaTime;
-		
-		if(_elaspedTime > _emmiterTime)
+		switch (gameState)
 		{
-			//insert ball into bucket
-			AddBallToBucket();
+			case 0:
+			break;
 
-			_elaspedTime = 0.0f;
-		}
-
-	
-
-		if (Input.GetMouseButtonDown (0)) {
-			Debug.Log ("Clicked");
-			Vector2 pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-			RaycastHit2D hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(pos), Vector2.zero);
-			// RaycastHit2D can be either true or null, but has an implicit conversion to bool, so we can use it like this
-			if(hitInfo)
+			case 1:
 			{
-				Debug.Log( hitInfo.transform.gameObject.name );
-
-				GameObject _gObj = hitInfo.transform.gameObject;
-				MathBall _mathBallScript = _gObj.GetComponent<MathBall> ();
-				if(_mathBallScript.setBallSelected() == false)
+			_elaspedTime += Time.deltaTime;
+			
+			if(_elaspedTime > _emmiterTime)
+			{
+				//insert ball into bucket
+				AddBallToBucket();
+				
+				_elaspedTime = 0.0f;
+			}
+			
+			
+			
+			if (Input.GetMouseButtonDown (0)) {
+				Debug.Log ("Clicked");
+				Vector2 pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+				RaycastHit2D hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(pos), Vector2.zero);
+				// RaycastHit2D can be either true or null, but has an implicit conversion to bool, so we can use it like this
+				if(hitInfo)
 				{
-					ClearSelectedBalls();
-					CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
-					_centralCalculator.ResetCalcTokenList();
-
-					//is ball already selected?
-					//clear with zonk
-				}
-				else
-				{
-					//value & function
-					MathBall.eFunction function = _mathBallScript._function;
-					int value = _mathBallScript.ball_value;
-
-					CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
-
-					_centralCalculator.AddCalcToken(value, function);
-
-					if(_centralCalculator.AnalyseCalcTokenList() == true)
+					Debug.Log( hitInfo.transform.gameObject.name );
+					
+					GameObject _gObj = hitInfo.transform.gameObject;
+					MathBall _mathBallScript = _gObj.GetComponent<MathBall> ();
+					if(_mathBallScript.setBallSelected() == false)
 					{
-						//success
-
-						//get score
-
-						//clear selected balls
-						Debug.Log ("SUCCESSFULL CALCULATION!!");
-						RemoveSelectedBalls();
-						_centralCalculator.ResetCalcTokenList();
-					}
-					else if(_centralCalculator.ErrorReport() > 0)
-					{
-						//clear with zonk
-						Debug.Log ("ERROR ... ERROR ... ERROR!!");
 						ClearSelectedBalls();
+						CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
 						_centralCalculator.ResetCalcTokenList();
-
+						
+						//is ball already selected?
+						//clear with zonk
+					}
+					else
+					{
+						//value & function
+						MathBall.eFunction function = _mathBallScript._function;
+						int value = _mathBallScript.ball_value;
+						
+						CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
+						
+						_centralCalculator.AddCalcToken(value, function);
+						
+						if(_centralCalculator.AnalyseCalcTokenList() == true)
+						{
+							//success
+							
+							//get score
+							
+							//clear selected balls
+							Debug.Log ("SUCCESSFULL CALCULATION!!");
+							RemoveSelectedBalls();
+							_centralCalculator.ResetCalcTokenList();
+						}
+						else if(_centralCalculator.ErrorReport() > 0)
+						{
+							//clear with zonk
+							Debug.Log ("ERROR ... ERROR ... ERROR!!");
+							ClearSelectedBalls();
+							_centralCalculator.ResetCalcTokenList();
+							
+						}
 					}
 				}
 			}
 		}
-		
+			break;
+
+
+			case 2:
+			break;
+
+		}
+
+
 
 	}
 
