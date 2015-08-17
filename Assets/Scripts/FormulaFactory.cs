@@ -52,4 +52,39 @@ public class FormulaFactory : MonoBehaviour
 	}
 
 
+
+
+
+
+	/*
+	public enum eFunction 
+	{
+		Digit,
+		Number,
+		Operand,
+		Point
+	};
+
+	public enum eOperator 
+	{
+		Plus,
+		Minus,
+		Multiply,
+		Divide,
+		Power,
+		Modulus,
+		Equals
+	};
+	*/
+
+	private void CreateEquation(int complextiy)
+	{
+
+
+
+		int operand = UnityEngine.Random.Range(0, 5);
+
+	}
+
+
 }
