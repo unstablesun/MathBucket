@@ -153,7 +153,7 @@ public class FuelHandler : MonoBehaviour
 		m_matchData.MatchComplete = false;
 
 
-		Application.LoadLevel("GamePlay");
+		Application.LoadLevel("PlayField");
 
 		//NotificationCenter.DefaultCenter.PostNotification (getMainMenuClass(), "LaunchGamePlay");
 	}
