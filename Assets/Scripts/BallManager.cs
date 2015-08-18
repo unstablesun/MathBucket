@@ -93,6 +93,9 @@ public class BallManager : MonoBehaviour
 							Debug.Log ("SUCCESSFULL CALCULATION!!");
 							RemoveSelectedBalls();
 							_centralCalculator.ResetCalcTokenList();
+
+							int rScore = UnityEngine.Random.Range(0, 100);//temp random score
+							GameCommon.getPlayfieldManagerClass().SetMatchOverWithScore(rScore);
 						}
 						else if(_centralCalculator.ErrorReport() > 0)
 						{

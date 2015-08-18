@@ -14,14 +14,12 @@ public class GamePlaySceneHandler : MonoBehaviour
 	{
 	
 	}
-
-
-
+	
 	public void SetWin()
 	{
 		MainMenuHandler.sComingFromGame = true;
 
-		getFuelHandlerClass ().SetMatchScore (1);
+		GameCommon.getFuelHandlerClass ().SetMatchScore (1);
 
 		Application.LoadLevel("Title");
 	}
@@ -29,29 +27,10 @@ public class GamePlaySceneHandler : MonoBehaviour
 	{
 		MainMenuHandler.sComingFromGame = true;
 
-		getFuelHandlerClass ().SetMatchScore (0);
+		GameCommon.getFuelHandlerClass ().SetMatchScore (0);
 
 		Application.LoadLevel("Title");
 	}
 
 
-
-
-
-
-
-	private FuelHandler getFuelHandlerClass()
-	{
-		GameObject _dynamicsHandler = GameObject.Find("FuelHandler");
-		if (_dynamicsHandler != null) {
-			FuelHandler _fuelHandlerScript = _dynamicsHandler.GetComponent<FuelHandler> ();
-			if(_fuelHandlerScript != null) {
-				return _fuelHandlerScript;
-			}
-			throw new Exception();
-		}
-		throw new Exception();
-	}
-
-	
 }

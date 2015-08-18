@@ -25,16 +25,4 @@ public class TitleSceneHandler : MonoBehaviour
 		}
 	}
 
-	private FuelHandler getFuelHandlerClass()
-	{
-		GameObject _dynamicsHandler = GameObject.Find("FuelHandler");
-		if (_dynamicsHandler != null) {
-			FuelHandler _fuelHandlerScript = _dynamicsHandler.GetComponent<FuelHandler> ();
-			if(_fuelHandlerScript != null) {
-				return _fuelHandlerScript;
-			}
-			throw new Exception();
-		}
-		throw new Exception();
-	}
 }

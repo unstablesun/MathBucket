@@ -15,7 +15,7 @@ public class MainMenuHandler : MonoBehaviour
 		if (sComingFromGame == true) 
 		{
 			
-			getFuelHandlerClass().LaunchPropeller();
+			GameCommon.getFuelHandlerClass().LaunchPropeller();
 			sComingFromGame = false;
 		}
 
@@ -29,7 +29,7 @@ public class MainMenuHandler : MonoBehaviour
 
 	public void Launch () 
 	{
-		getFuelHandlerClass().Launch ();
+		GameCommon.getFuelHandlerClass().Launch ();
 	}
 
 	public void RefreshChallengeCount(int challengeCount)
@@ -90,18 +90,6 @@ public class MainMenuHandler : MonoBehaviour
 	}
 
 
-	private FuelHandler getFuelHandlerClass()
-	{
-		GameObject _dynamicsHandler = GameObject.Find("FuelHandler");
-		if (_dynamicsHandler != null) {
-			FuelHandler _fuelHandlerScript = _dynamicsHandler.GetComponent<FuelHandler> ();
-			if(_fuelHandlerScript != null) {
-				return _fuelHandlerScript;
-			}
-			throw new Exception();
-		}
-		throw new Exception();
-	}
 
 	public void AddNotificationObservers()
 	{

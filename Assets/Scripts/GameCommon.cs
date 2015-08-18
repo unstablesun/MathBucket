@@ -65,4 +65,46 @@ public class GameCommon : MonoBehaviour
 		throw new Exception();
 	}
 
+	static public BallManager getBallManagerClass()
+	{
+		GameObject _ballManagerHandler = GameObject.Find("BallManager");
+		if (_ballManagerHandler != null) {
+			BallManager _ballManagerScript = _ballManagerHandler.GetComponent<BallManager> ();
+			if(_ballManagerScript != null) {
+				return _ballManagerScript;
+			}
+			throw new Exception();
+		}
+		throw new Exception();
+	}
+	
+	static public FuelHandler getFuelHandlerClass()
+	{
+		GameObject _dynamicsHandler = GameObject.Find("FuelHandler");
+		if (_dynamicsHandler != null) {
+			FuelHandler _fuelHandlerScript = _dynamicsHandler.GetComponent<FuelHandler> ();
+			if(_fuelHandlerScript != null) {
+				return _fuelHandlerScript;
+			}
+			throw new Exception();
+		}
+		throw new Exception();
+	}
+
+	static public PlayfieldManager getPlayfieldManagerClass()
+	{
+		GameObject _playfieldManager = GameObject.Find("PlayfieldManager");
+		if (_playfieldManager != null) {
+			PlayfieldManager _playfieldManagerScript = _playfieldManager.GetComponent<PlayfieldManager> ();
+			if(_playfieldManagerScript != null) {
+				return _playfieldManagerScript;
+			}
+			throw new Exception();
+		}
+		throw new Exception();
+	}
+
+
+
+
 }
