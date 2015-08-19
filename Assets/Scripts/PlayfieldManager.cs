@@ -4,10 +4,23 @@ using System;
 
 public class PlayfieldManager : MonoBehaviour 
 {
+	private GameObject EndGameOverlay = null;
+	private GameObject StartGameOverlay = null;
 
 	void Start () 
 	{
-	
+		EndGameOverlay = GameObject.Find("CanvasEndGame");
+		if (EndGameOverlay != null)
+		{
+			EndGameOverlay.SetActive(false);
+		}
+
+		StartGameOverlay = GameObject.Find("CanvasStartGame");
+		if (StartGameOverlay != null)
+		{
+			StartGameOverlay.SetActive(true);
+		}
+
 	}
 	
 	void Update () 
@@ -20,11 +33,8 @@ public class PlayfieldManager : MonoBehaviour
 	public void StartMatch () 
 	{
 		//remove canvas
-		GameObject go = GameObject.Find("CanvasStartGame");
-		if (!go)
-			return;
-
-		go.SetActive(false);
+		if (StartGameOverlay != null)
+			StartGameOverlay.SetActive(false);
 
 		//start the balls falling
 		GameCommon.getBallManagerClass().SetState(1);
@@ -34,14 +44,19 @@ public class PlayfieldManager : MonoBehaviour
 
 	public void SetMatchOverWithScore (int score) 
 	{
-		MainMenuHandler.sComingFromGame = true;
+		if (EndGameOverlay != null)
+			EndGameOverlay.SetActive(true);
 		
 		GameCommon.getFuelHandlerClass ().SetMatchScore (score);
-		
-		Application.LoadLevel("MainMenu");
 	}
 
 
+	public void GotoMainMenu () 
+	{
+		MainMenuHandler.sComingFromGame = true;
+
+		Application.LoadLevel("MainMenu");
+	}
 
 
 }
