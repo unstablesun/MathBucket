@@ -213,7 +213,7 @@ public class PropellerPostprocessBuildPlayer : MonoBehaviour
 		UnityAPILevel unityApiLevel = UnityAPILevel.UNSUPPORTED;
 #endif
 
-		UnityEngine.Debug.Log ("[PropellerSDK] Injecting Propeller SDK into the Xcode project... unityApiLevel = " + ((int) unityApiLevel).ToString());
+		UnityEngine.Debug.Log ("[PropellerSDK] Injecting Propeller SDK into the Xcode project...");
 
 		result = Execute (
 			pluginRootPath + "/Propeller/PostbuildScripts/PostbuildPropellerScript",

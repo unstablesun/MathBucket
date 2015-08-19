@@ -39,8 +39,8 @@ xcodeVersion = sys.argv[6]
 # 14 - UNITY_4_3,
 # 15 - UNITY_4_5,
 # 16 - UNITY_4_6,
-# 17 - UNITY_5_0
-# 18- UNITY_5_1
+# 17 - UNITY_5_0,
+# 18 - UNITY_5_1
 
 # only supporting Unity 3.5 and up
 if unityApiLevel < 9:
@@ -50,7 +50,7 @@ def checkPath(path, libname):
 	if path == None:
 		exitWithError('Unable to find ' + libname + ' which is required for Propeller integration. Add it manually or modify PropellerBuild.py to find the correct folder.')
 
-print 'Adding Propeller dependencies to project '
+print 'Adding Propeller dependencies to project'
 
 systemConfigurationFrameworkPath = None
 adSupportFrameworkPath = None
@@ -106,13 +106,6 @@ project.add_file_if_doesnt_exist( cfNetworkFrameworkPath, tree='SDKROOT', parent
 project.add_file_if_doesnt_exist( audioToolboxFrameworkPath, tree='SDKROOT', parent=frameworkGroup )
 project.add_file_if_doesnt_exist( libsqlite3Path, tree='SDKROOT', parent=frameworkGroup )
 project.add_file_if_doesnt_exist( libicucorePath, tree='SDKROOT', parent=frameworkGroup )
-
-print 'Adding resources required by Propeller'
-
-resourceGroup = project.get_or_create_group('Resources')
-
-
-
 
 print 'Inserting Propeller libraries'
 
@@ -185,6 +178,7 @@ def addInit(contentOnly=False):
 	print '\t\t[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLocalNotification:) name:@"PropellerSDKVirtualGoodList" object:nil];'
 	print '\t\t[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLocalNotification:) name:@"PropellerSDKVirtualGoodRollback" object:nil];'
 	print '\t\t[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLocalNotification:) name:@"PropellerSDKUserValues" object:nil];'
+	print '\t\t[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLocalNotification:) name:@"PropellerSDKNotification" object:nil];'
 	if not contentOnly:
 		print '\t}'
 		print '\treturn self;'
@@ -236,8 +230,7 @@ def addFinishLaunching(contentOnly=False):
 	print ''
 	print '\tif (remoteNotificationDict)'
 	print '\t{'
-	print '\t\tif (![PropellerSDK handleRemoteNotification:remoteNotificationDict newLaunch:YES])'
-	print '\t\t{'
+	print '\t\tif (![PropellerSDK handleRemoteNotification:remoteNotificationDict newLaunch:YES]) {'
 	print '\t\t\t// This is not a Fuel remote notification, I should handle it'
 	print '\t\t}'
 	print '\t}'
@@ -246,8 +239,7 @@ def addFinishLaunching(contentOnly=False):
 	print ''
 	print '\tif (localNotification)'
 	print '\t{'
-	print '\t\tif (![PropellerSDK handleLocalNotification:localNotification newLaunch:YES])'
-	print '\t\t{'
+	print '\t\tif (![PropellerSDK handleLocalNotification:localNotification newLaunch:YES]) {'
 	print '\t\t\t// This is not a Fuel local notification, I should handle it'
 	print '\t\t}'
 	print '\t}'
@@ -284,11 +276,6 @@ def addEnterBackground(contentOnly=False):
 	print '\t[PropellerSDK restoreAllLocalNotifications];'
 	addFunctionInjectionSuffix(contentOnly)
 
-def addEnterForeground(contentOnly=False):
-	addFunctionInjectionPrefix('- (void)applicationWillEnterForeground:(UIApplication*)application', contentOnly)
-	print '\t[PropellerSDK handleApplicationWillEnterForeground:application];'
-	addFunctionInjectionSuffix(contentOnly)
-	
 def addExtraFunctions():
 	addInjectionPrefix()
 	print '-(NSString *)urlEncode:(NSString *)rawString'
@@ -469,6 +456,18 @@ def addExtraFunctions():
 	print '\t\t}'
 	print ''
 	print '\t\tUnitySendMessage("PropellerCommon", "PropellerOnUserValues", [message UTF8String]);'
+	print '\t} else if ([type isEqualToString:@"PropellerSDKImplicitLaunch"]) {'
+	print '\t\tNSString *message = nil;'
+	print ''
+	print '\t\tif (data != nil) {'
+	print '\t\t\tmessage = [data objectForKey:@"applicationState"];'
+	print '\t\t}'
+	print ''
+	print '\t\tif (message == nil) {'
+	print '\t\t\tmessage = @"";'
+	print '\t\t}'
+	print ''
+	print '\t\tUnitySendMessage("PropellerSDK", "PropellerOnImplicitLaunch", [message UTF8String]);'
 	print '\t}'
 	print '}'
 	addInjectionSuffix()
@@ -482,7 +481,6 @@ injectReceiveRemoteNotification = False
 injectRegisterUserNotificationSettings = False
 injectFinishLaunching = False
 injectEnterBackground = False
-injectEnterForeground = False
 
 injectedHeader = False
 injectedInit = False
@@ -494,7 +492,6 @@ injectedReceiveRemoteNotification = False
 injectedRegisterUserNotificationSettings = False
 injectedFinishLaunching = False
 injectedEnterBackground = False
-injectedEnterForeground = False
 
 lastNonBlankLine = ''
 
@@ -523,8 +520,6 @@ for line in fileinput.input( controllerFile, inplace=1 ):
 		injectFinishLaunching = True
 	elif ')applicationDidEnterBackground:(' in line:
 		injectEnterBackground = True
-	elif ')applicationWillEnterForeground:(' in line:
-		injectEnterForeground = True
 	else:
 		if injectHeader:
 			injectHeader = False
@@ -571,11 +566,6 @@ for line in fileinput.input( controllerFile, inplace=1 ):
 			if injectionPrefix not in line:
 				addEnterBackground(True)
 				injectedEnterBackground = True
-		if injectEnterForeground and '{' not in line:
-			injectEnterForeground = False
-			if injectionPrefix not in line:
-				addEnterForeground(True)
-				injectedEnterForeground = True
 
 	lastNonBlankLine = line
 
@@ -620,8 +610,6 @@ for line in fileinput.input( controllerFile, inplace=1 ):
 					addFinishLaunching()
 				if not injectedEnterBackground:
 					addEnterBackground()
-				if not injectedEnterForeground:
-					addEnterForeground()
 				addExtraFunctions()
 
 	lastNonBlankLine = line
