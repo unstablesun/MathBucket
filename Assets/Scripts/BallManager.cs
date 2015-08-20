@@ -6,7 +6,6 @@ using System;
 public class BallManager : MonoBehaviour 
 {
 
-
 	public int NumPreloaded = 32;
 	public int NumAnimsPreloaded = 32;
 
@@ -18,6 +17,7 @@ public class BallManager : MonoBehaviour
 	private float _emmiterTime = 0.05f;
 
 	private int gameState = 0;
+	private int numFormulaKeys;
 
 	public void SetState(int s)
 	{
@@ -30,6 +30,12 @@ public class BallManager : MonoBehaviour
 		GameCommon.InitDefaults();
 		PreLoadBallPrefabs();
 		PreLoadBallAnimPrefabs();
+
+		GetNumBallsInBucket();
+
+		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
+		numFormulaKeys = _formulaFactory.InitEquationSet();
+
 	}
 	
 	void Update () 
@@ -41,74 +47,80 @@ public class BallManager : MonoBehaviour
 
 			case 1:
 			{
-			_elaspedTime += Time.deltaTime;
-			
-			if(_elaspedTime > _emmiterTime)
-			{
-				//insert ball into bucket
-				AddBallToBucket();
+				_elaspedTime += Time.deltaTime;
 				
-				_elaspedTime = 0.0f;
-			}
-			
-			
-			
-			if (Input.GetMouseButtonDown (0)) {
-				Debug.Log ("Clicked");
-				Vector2 pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-				RaycastHit2D hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(pos), Vector2.zero);
-				// RaycastHit2D can be either true or null, but has an implicit conversion to bool, so we can use it like this
-				if(hitInfo)
+				if(_elaspedTime > _emmiterTime)
 				{
-					Debug.Log( hitInfo.transform.gameObject.name );
+					//insert ball into bucket
+					AddBallToBucket();
 					
-					GameObject _gObj = hitInfo.transform.gameObject;
-					MathBall _mathBallScript = _gObj.GetComponent<MathBall> ();
-					if(_mathBallScript.setBallSelected() == false)
+					_elaspedTime = 0.0f;
+				}
+				
+				
+				
+				if (Input.GetMouseButtonDown (0)) 
+				{
+					Debug.Log ("Clicked");
+					Vector2 pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+					RaycastHit2D hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(pos), Vector2.zero);
+					// RaycastHit2D can be either true or null, but has an implicit conversion to bool, so we can use it like this
+					if(hitInfo)
 					{
-						ClearSelectedBalls();
-						CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
-						_centralCalculator.ResetCalcTokenList();
+						Debug.Log( hitInfo.transform.gameObject.name );
 						
-						//is ball already selected?
-						//clear with zonk
-					}
-					else
-					{
-						//value & function
-						MathBall.eFunction function = _mathBallScript._function;
-						int value = _mathBallScript.ball_value;
-						
-						CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
-						
-						_centralCalculator.AddCalcToken(value, function);
-						
-						if(_centralCalculator.AnalyseCalcTokenList() == true)
+						GameObject _gObj = hitInfo.transform.gameObject;
+						MathBall _mathBallScript = _gObj.GetComponent<MathBall> ();
+						if(_mathBallScript.setBallSelected() == false)
 						{
-							//success
-							
-							//get score
-							
-							//clear selected balls
-							Debug.Log ("SUCCESSFULL CALCULATION!!");
-							RemoveSelectedBalls();
-							_centralCalculator.ResetCalcTokenList();
-
-							int rScore = UnityEngine.Random.Range(0, 100);//temp random score
-							GameCommon.getPlayfieldManagerClass().SetMatchOverWithScore(rScore);
-						}
-						else if(_centralCalculator.ErrorReport() > 0)
-						{
-							//clear with zonk
-							Debug.Log ("ERROR ... ERROR ... ERROR!!");
 							ClearSelectedBalls();
+							CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
 							_centralCalculator.ResetCalcTokenList();
 							
+							//is ball already selected?
+							//clear with zonk
+						}
+						else
+						{
+							//value & function
+							MathBall.eFunction function = _mathBallScript._function;
+							int value = _mathBallScript.ball_value;
+							
+							CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
+							
+							_centralCalculator.AddCalcToken(value, function);
+							
+							if(_centralCalculator.AnalyseCalcTokenList() == true)
+							{
+								//success
+								
+								//get score
+								
+								//clear selected balls
+								Debug.Log ("SUCCESSFULL CALCULATION!!");
+								RemoveSelectedBalls();
+								_centralCalculator.ResetCalcTokenList();
+
+
+								if(GetNumBallsInBucket() == 0)
+								{
+
+									int rScore = UnityEngine.Random.Range(0, 100);//temp random score
+									GameCommon.getPlayfieldManagerClass().SetMatchOverWithScore(rScore);
+								}
+							}
+							else if(_centralCalculator.ErrorReport() > 0)
+							{
+								//clear with zonk
+								Debug.Log ("ERROR ... ERROR ... ERROR!!");
+								ClearSelectedBalls();
+								_centralCalculator.ResetCalcTokenList();
+								
+							}
 						}
 					}
 				}
 			}
-		}
 			break;
 
 
@@ -170,43 +182,63 @@ public class BallManager : MonoBehaviour
 			return;
 
 
-		MathBall _mathBallScript = mathBall.GetComponent<MathBall> ();
-		_mathBallScript._state = MathBall.eState.InBucket;
-
 
 		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
-		_formulaFactory.setNextBallValues();
-		MathBall.eFunction _ballFunction = _formulaFactory.ball_function;
-		int _ballValue = _formulaFactory.ball_value;
 
-		setBallFunctionAndValue(mathBall, _ballFunction, _ballValue);
-
-
-		if(_ballFunction == MathBall.eFunction.Digit)
+		if(_formulaFactory.getNextBallValue() == true)
 		{
-			setBallColor(mathBall, GameCommon.ballColorBackDigit);
-			setBallScale(mathBall, GameCommon.ballScaleDigit);
-		}
-		else if(_ballFunction == MathBall.eFunction.Operand)
-		{
-			if(_ballValue == (int)MathBall.eOperator.Equals)
-			{
-				setBallColor(mathBall, GameCommon.ballColorBackEquals);
-				setBallScale(mathBall, GameCommon.ballScaleEquals);
-			}
-			else
-			{
-				setBallColor(mathBall, GameCommon.ballColorBackOperand);
-				setBallScale(mathBall, GameCommon.ballScaleOperand);
-			}
-		}
+
+			MathBall _mathBallScript = mathBall.GetComponent<MathBall> ();
+			_mathBallScript._state = MathBall.eState.InBucket;
+			GetNumBallsInBucket();
 
 
-		mathBall.SetActive(true);
-		setAllChildrenActive(mathBall, true);
+			MathBall.eFunction _ballFunction = _formulaFactory.ball_function;
+			int _ballValue = _formulaFactory.ball_value;
+
+			setBallFunctionAndValue(mathBall, _ballFunction, _ballValue);
+
+
+			if(_ballFunction == MathBall.eFunction.Digit)
+			{
+				setBallColor(mathBall, GameCommon.ballColorBackDigit);
+				setBallScale(mathBall, GameCommon.ballScaleDigit);
+			}
+			else if(_ballFunction == MathBall.eFunction.Operand)
+			{
+				if(_ballValue == (int)MathBall.eOperator.Equals)
+				{
+					setBallColor(mathBall, GameCommon.ballColorBackEquals);
+					setBallScale(mathBall, GameCommon.ballScaleEquals);
+				}
+				else
+				{
+					setBallColor(mathBall, GameCommon.ballColorBackOperand);
+					setBallScale(mathBall, GameCommon.ballScaleOperand);
+				}
+			}
+
+
+			mathBall.SetActive(true);
+			setAllChildrenActive(mathBall, true);
+		}
 	}
 
 
+	private int GetNumBallsInBucket() 
+	{
+		int count = 0;
+		foreach(GameObject gObj in BallObjects)
+		{
+			MathBall _mathBallScript = gObj.GetComponent<MathBall> ();
+			if(_mathBallScript._state == MathBall.eState.InBucket)
+			{
+				count++;
+			}
+		}
+		Debug.Log ("GetNumBallsInBucket = " + count);
+		return count;
+	}
 
 	GameObject GetAvailableBall() 
 	{
