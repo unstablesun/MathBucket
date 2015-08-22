@@ -113,11 +113,26 @@ public class FormulaFactory : MonoBehaviour
 		compexity2,
 	};
 
+	public enum eOperandBias 
+	{
+		any,
+		forcePlus,
+		forceMinus,
+		forceMult,
+		forceDivide,
+		forcePower,
+		forceModulus,
+		plusOrMinus,
+		multOrDivide,
+	};
+
+
 
 	
 	private void AddEquation(int numEquations, int complexityCurve)
 	{
 		//unit tests
+		/*
 		AddFormulaToken (1, MathBall.eFunction.Digit);
 		AddFormulaToken ((int)MathBall.eOperator.Plus,  MathBall.eFunction.Operand);
 		AddFormulaToken (2, MathBall.eFunction.Digit);
@@ -130,59 +145,75 @@ public class FormulaFactory : MonoBehaviour
 		AddFormulaToken ((int)MathBall.eOperator.Equals,  MathBall.eFunction.Operand);
 		AddFormulaToken (2, MathBall.eFunction.Digit);
 		AddFormulaToken (0, MathBall.eFunction.Digit);
-		
-		//int numLeftDigits = UnityEngine.Random.Range(2, 4);
-		//int operand = UnityEngine.Random.Range(0, 5);
+		*/
+
+		AddEquationForm(eEquationType.compexity1, 1, 10, eOperandBias.forcePlus );
+		AddEquationForm(eEquationType.compexity1, 1, 10, eOperandBias.forceMinus );
+
 	}
 
-	private void AddEquationForm(eEquationType eqForm, int minRange, int maxRange, int operandBias)
+
+
+	private void convertDigitsToFormulaTokens(int input)
+	{
+		int[] digits = getDigits(input);
+		int num = digits.GetLength(0);
+		for(int i = 0; i < num; i++)
+		{
+			AddFormulaToken (digits[i], MathBall.eFunction.Digit);
+		}
+	}
+
+	private void AddEquationForm(eEquationType eqForm, int minRange, int maxRange, eOperandBias operandBias)
 	{
 		switch( eqForm )
 		{
 			case eEquationType.compexity1://a+b=c, a*b=c, etc...
 			{
+				int inputA, inputB, resultC;
+				inputA = UnityEngine.Random.Range(minRange, maxRange);
+				inputB = UnityEngine.Random.Range(minRange, maxRange);
 
-				int inputA = UnityEngine.Random.Range(minRange, maxRange);
+				resultC = 0;
 
-
-				//NOTE *!* defer these steps unit inputA, inputB & resultC have been worked out see comments below
-				int[] digits = getDigits(inputA);
-				int num = digits.GetLength(0);
-				for(int i = 0; i < num; i++)
+				if(operandBias == eOperandBias.forcePlus)
 				{
-					AddFormulaToken (digits[i], MathBall.eFunction.Digit);
+					resultC = inputA + inputB;
+					Debug.Log (resultC + " = " + inputA + " + " + inputB);
+					AddFormulaToken ((int)MathBall.eOperator.Plus,  MathBall.eFunction.Operand);
+				}
+				else if(operandBias == eOperandBias.forceMinus)
+				{
+					int resultX = inputA + inputB;
+					resultC = inputA;
+					inputA = resultX;
+					Debug.Log (resultC + " = " + inputA + " - " + inputB);
+					AddFormulaToken ((int)MathBall.eOperator.Minus,  MathBall.eFunction.Operand);
+				}
+				else if(operandBias == eOperandBias.forceMult)
+				{
+					resultC = inputA * inputB;
+					Debug.Log (resultC + " = " + inputA + " * " + inputB);
+					AddFormulaToken ((int)MathBall.eOperator.Multiply,  MathBall.eFunction.Operand);
+				}
+				else if(operandBias == eOperandBias.forceDivide)
+				{
+					int resultX = inputA * inputB;
+					resultC = inputA;
+					inputA = resultX;
+					Debug.Log (resultC + " = " + inputA + " / " + inputB);
+					AddFormulaToken ((int)MathBall.eOperator.Divide,  MathBall.eFunction.Operand);
 				}
 
-
-
-				int inputB = UnityEngine.Random.Range(minRange, maxRange);
-
-				//get random operand
-				//is input acceptible for minus or divide
-
-				//for division do a mult first then reverse example 4 * 5 = 20 : 20 / 4 = 5 or 20 / 5 = 4.
-				//more ex. 3 * 8 = 24 : 24 / 8 = 3.  12 * 8 = 96 : 96 / 12 = 8 or 96 / 8 = 12.
-
-				//for subtraction do an add first then reverse example 8+12=20 : 20-12=8 or 20-8=12 or even 12=20-8
-
-
-				//MathBall.eOperator operand = getRandomOperand();
-
-				AddFormulaToken ((int)MathBall.eOperator.Plus,  MathBall.eFunction.Operand);
-				AddFormulaToken (2, MathBall.eFunction.Digit);
+				convertDigitsToFormulaTokens(inputA);
+				convertDigitsToFormulaTokens(inputB);
+				convertDigitsToFormulaTokens(resultC);
 
 				AddFormulaToken ((int)MathBall.eOperator.Equals,  MathBall.eFunction.Operand);
 
-
-
-				int resultC = applyOperand(MathBall.eOperator.Plus, inputA, inputB);
-
-				int[] resultDigits = getDigits(inputA);
-				num = resultDigits.GetLength(0);
-				for(int i = 0; i < num; i++)
-				{
-					AddFormulaToken (resultDigits[i], MathBall.eFunction.Digit);
-				}
+				//for division do a mult first then reverse example 4 * 5 = 20 : 20 / 4 = 5 or 20 / 5 = 4.
+				//more ex. 3 * 8 = 24 : 24 / 8 = 3.  12 * 8 = 96 : 96 / 12 = 8 or 96 / 8 = 12.
+				//for subtraction do an add first then reverse example 8+12=20 : 20-12=8 or 20-8=12 or even 12=20-8
 
 			}
 			break;
@@ -191,12 +222,6 @@ public class FormulaFactory : MonoBehaviour
 			{
 				int inputA = UnityEngine.Random.Range(minRange, maxRange);
 				
-				int[] digits = getDigits(inputA);
-				int num = digits.GetLength(0);
-				for(int i = 0; i < num; i++)
-				{
-					AddFormulaToken (digits[i], MathBall.eFunction.Digit);
-				}
 			}
 			break;
 		}
@@ -235,7 +260,15 @@ public class FormulaFactory : MonoBehaviour
 			digits[idx++] = fromThis;
 		}
 
-		return digits;
+		int[] finaldigits = new int[idx];
+
+		for(int i = 0; i< idx; i++)
+		{
+			finaldigits[i] = digits[i];
+		}
+
+
+		return finaldigits;
 	}
 
 	private bool isInputAcceptableForMinus(int inputA, int inputB)
