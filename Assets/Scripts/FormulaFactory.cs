@@ -271,6 +271,33 @@ public class FormulaFactory : MonoBehaviour
 		return finaldigits;
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//deprecated
 	private bool isInputAcceptableForMinus(int inputA, int inputB)
 	{
 		int result = inputA - inputB;
@@ -280,6 +307,7 @@ public class FormulaFactory : MonoBehaviour
 		return false;
 	}
 
+	//deprecated
 	private int isInputAcceptableForDivide(int inputA, int inputB)
 	{
 		if(inputA > inputB)
@@ -298,13 +326,7 @@ public class FormulaFactory : MonoBehaviour
 		return 0;
 	}
 
-	private MathBall.eOperator getRandomOperand(int[] fromThese)
-	{
-		int range = fromThese.GetLength(0);
-		int randIdx =  UnityEngine.Random.Range(0, range);
-		return (MathBall.eOperator)fromThese[randIdx];
-	}
-
+	//deprecated
 	private int applyOperand(MathBall.eOperator operand, int inputA, int inputB)
 	{
 		int resultC = 0;
@@ -332,23 +354,6 @@ public class FormulaFactory : MonoBehaviour
 
 		return resultC;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	//deprecated

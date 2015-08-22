@@ -104,7 +104,17 @@ public class GameCommon : MonoBehaviour
 		throw new Exception();
 	}
 
-
-
+	static public GameplayManager getGameplayManagerClass()
+	{
+		GameObject _gameplayManager = GameObject.Find("GameplayManager");
+		if (_gameplayManager != null) {
+			GameplayManager _gameplayManagerScript = _gameplayManager.GetComponent<GameplayManager> ();
+			if(_gameplayManagerScript != null) {
+				return _gameplayManagerScript;
+			}
+			throw new Exception();
+		}
+		throw new Exception();
+	}
 
 }
