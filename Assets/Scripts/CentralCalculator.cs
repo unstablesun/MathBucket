@@ -5,7 +5,14 @@ using System;
 
 public class CentralCalculator : MonoBehaviour
 {
-	
+	private int _calcScore;
+	public int calcScore
+	{
+		get { return _calcScore; }
+	}
+
+
+
 	public class CalcToken 
 	{
 		public int value { get; set; }
@@ -30,6 +37,7 @@ public class CentralCalculator : MonoBehaviour
 		keyIndex = 0;
 		errorResult = 0;
 		CalcTokens.Clear ();
+		_calcScore = 0;
 	}
 
 	public void AddCalcToken (int value, MathBall.eFunction function) 
@@ -114,6 +122,7 @@ public class CentralCalculator : MonoBehaviour
 		int count = eix;
 		int leftSide = 0;
 		int rightSide = 9999;
+		int score = 0;
 
 		int idx = 0;
 		MathBall.eOperator currentOp = MathBall.eOperator.Plus;
@@ -129,21 +138,27 @@ public class CentralCalculator : MonoBehaviour
 				{
 					case MathBall.eOperator.Plus:
 						value += equation [idx];
+						score += 1;
 						break;
 					case MathBall.eOperator.Minus:
 						value -= equation [idx];
+						score += 2;
 						break;
 					case MathBall.eOperator.Multiply:
 						value *= equation [idx];
+						score += 3;
 						break;
 					case MathBall.eOperator.Divide:
 						value /= equation [idx];
+						score += 4;
 						break;
 					case MathBall.eOperator.Power:
 						value = (int)Math.Pow(value, equation [idx]);
+						score += 5;
 						break;
 					case MathBall.eOperator.Modulus:
 						value %= equation [idx];
+						score += 6;
 						break;
 				}
 			} 
@@ -182,6 +197,8 @@ public class CentralCalculator : MonoBehaviour
 		{
 			result = true;
 		}
+
+		_calcScore = score;
 
 		return result;
 	}

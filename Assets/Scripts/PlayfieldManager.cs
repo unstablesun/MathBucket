@@ -163,7 +163,8 @@ public class PlayfieldManager : MonoBehaviour
 				//text.enabled = enabled;
 				text.text = "Score : " + score;
 			}
-			else if(text.name == "InGameLevelText")
+
+			if(text.name == "InGameLevelText")
 			{
 				//text.enabled = enabled;
 				text.text = "Level : " + level;

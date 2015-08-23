@@ -127,6 +127,15 @@ public class FuelHandler : MonoBehaviour
 		JSONNode json = JSONNode.Parse (paramsJSON);
 		
 		m_matchData.MatchRound = json ["round"].AsInt;
+
+		// Must parse long values manually since SimpleJSON
+		// doesn't yet provide this function automatically.
+		long seed = 0;
+		if (!long.TryParse(json ["seed"], out seed))
+		{
+			// invalid string encoded long value, defaults to 0
+		}
+
 		
 		JSONClass you = json ["you"].AsObject;
 		m_matchData.YourNickname = you ["name"];
@@ -153,6 +162,11 @@ public class FuelHandler : MonoBehaviour
 		m_matchData.MatchComplete = false;
 
 
+		Debug.Log ("LaunchMultiplayerGame with seed : " + (int)seed);
+
+
+		UnityEngine.Random.seed = (int)seed;
+
 		Application.LoadLevel("PlayField");
 
 		//NotificationCenter.DefaultCenter.PostNotification (getMainMenuClass(), "LaunchGamePlay");
@@ -171,7 +185,7 @@ public class FuelHandler : MonoBehaviour
 
 	private void sendMatchResult (long score)
 	{
-		Debug.Log ("sendMatchResult");
+		Debug.Log ("sendMatchResult with score : " + score);
 		
 		long visualScore = score;
 		

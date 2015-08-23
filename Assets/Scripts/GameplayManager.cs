@@ -20,9 +20,8 @@ public class GameplayManager : MonoBehaviour
 
 	private float _elaspedPuzzleTime = 0.0f;
 	private float _puzzleDurationTime = 5.0f;
-	private int _gameLevel = 0;
-
-	private int numFormulaKeys = 0;
+	private int _gameLevel = 1;
+	private int _gameScore = 0;
 
 	void Start () 
 	{
@@ -38,14 +37,24 @@ public class GameplayManager : MonoBehaviour
 
 	public void StartGame () 
 	{
-		GameCommon.getFormulaFactoryClass().SetFormulaSeed(42);
+
 		_gameState = eGameState.selectFormulas;
 
 	}
 
 	public void PuzzleCompete (int score) 
 	{
-		
+		//get time bonus
+		float remainingTime = 1.0f;
+		float rtime = _puzzleDurationTime - _elaspedPuzzleTime;
+		remainingTime = rtime * 1.0f / _puzzleDurationTime;
+
+		float bonusFactor = (2.0f - remainingTime) * (float)_gameLevel;
+
+		float pScore = (float)score * bonusFactor;
+
+
+		_gameScore += (int)pScore;
 		_gameState = eGameState.puzzleResults;
 		
 	}
@@ -82,41 +91,49 @@ public class GameplayManager : MonoBehaviour
 		_elaspedPuzzleTime = 0.0f;
 		switch( _gameLevel )
 		{
-		case 0:
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-			_puzzleDurationTime = 100.0f;
-			break;
-
 		case 1:
-			
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMinus );
 
-			_puzzleDurationTime = 100.0f;
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
+			_puzzleDurationTime = 30.0f;
 			break;
 
 		case 2:
 			
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMinus );
+			_formulaFactory.AddEquation(0, 1, 18, FormulaFactory.eOperandBias.forceMinus );
 
-			_puzzleDurationTime = 100.0f;
+			_puzzleDurationTime = 30.0f;
 			break;
 
 		case 3:
 			
-			_formulaFactory.AddEquation(0, 1, 12, FormulaFactory.eOperandBias.forceMult );
-			_puzzleDurationTime = 100.0f;
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMinus );
+
+			_puzzleDurationTime = 50.0f;
 			break;
 
 		case 4:
-
 			
-			_puzzleDurationTime = 100.0f;
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
+
+			_puzzleDurationTime = 50.0f;
 			break;
 
 		case 5:
-			
+
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
+
+			_puzzleDurationTime = 50.0f;
+			break;
+
+		case 6:
+
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
+
 			_puzzleDurationTime = 100.0f;
 			break;
 		}
@@ -139,7 +156,7 @@ public class GameplayManager : MonoBehaviour
 			break;
 
 		case eGameState.puzzleReady:
-			GameCommon.getBallManagerClass().SetState(BallManager.eSystemState.active);
+			GameCommon.getBallManagerClass().SetState(BallManager.eSystemState.reboot);
 			_gameState = eGameState.puzzlePlaying;
 			break;
 
@@ -152,7 +169,7 @@ public class GameplayManager : MonoBehaviour
 			{
 				//puzzle playing time elasped
 				GameCommon.getBallManagerClass().SetState(BallManager.eSystemState.done);
-				_gameState = eGameState.puzzleResults;
+				_gameState = eGameState.gameover;
 
 				_elaspedPuzzleTime = 0.0f;
 			}
@@ -165,7 +182,7 @@ public class GameplayManager : MonoBehaviour
 
 			Debug.Log ("eGameState.puzzleResults");
 
-			GameCommon.getPlayfieldManagerClass().SetPuzzleResults(100, _gameLevel + 1);
+			GameCommon.getPlayfieldManagerClass().SetPuzzleResults(_gameScore, _gameLevel);
 
 			_gameState = eGameState.waitingForPlayfield;
 			break;

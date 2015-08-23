@@ -8,7 +8,7 @@ public class BallManager : MonoBehaviour
 	public enum eSystemState 
 	{
 		noop,
-		init,
+		reboot,
 		active,
 		done,
 	};
@@ -23,6 +23,9 @@ public class BallManager : MonoBehaviour
 
 	private float _elaspedTime = 0.0f;
 	private float _emmiterTime = 0.01f;
+
+	private int _score = 0;
+
 
 	public void SetState(eSystemState state)
 	{
@@ -47,7 +50,9 @@ public class BallManager : MonoBehaviour
 			case eSystemState.noop:
 			break;
 
-			case eSystemState.init:
+			case eSystemState.reboot:
+				_score = 0;
+				_systemState = eSystemState.active;
 			break;
 
 			case eSystemState.active:
@@ -100,20 +105,16 @@ public class BallManager : MonoBehaviour
 								//success
 								
 								//get score
+								_score += _centralCalculator.calcScore;
 								
 								//clear selected balls
 								Debug.Log ("SUCCESSFULL CALCULATION!!");
 								RemoveSelectedBalls();
 								_centralCalculator.ResetCalcTokenList();
 
-
 								if(GetNumBallsInBucket() == 0)
 								{
-
-									int rScore = UnityEngine.Random.Range(0, 100);//temp random score
-
-									GameCommon.getGameplayManagerClass().PuzzleCompete(rScore);
-
+									GameCommon.getGameplayManagerClass().PuzzleCompete(_score);
 								}
 							}
 							else if(_centralCalculator.ErrorReport() > 0)

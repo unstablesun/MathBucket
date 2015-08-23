@@ -38,7 +38,7 @@ public class FormulaFactory : MonoBehaviour
 
 	public void SetFormulaSeed (int seed) 
 	{
-		UnityEngine.Random.seed = seed;
+		//UnityEngine.Random.seed = seed;
 	}
 	
 	public void ResetFormulaTokenList () 
