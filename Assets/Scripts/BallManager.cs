@@ -5,6 +5,14 @@ using System;
 
 public class BallManager : MonoBehaviour 
 {
+	public enum eSystemState 
+	{
+		noop,
+		init,
+		active,
+		done,
+	};
+	private eSystemState _systemState = eSystemState.noop;
 
 	public int NumPreloaded = 32;
 	public int NumAnimsPreloaded = 32;
@@ -16,12 +24,9 @@ public class BallManager : MonoBehaviour
 	private float _elaspedTime = 0.0f;
 	private float _emmiterTime = 0.05f;
 
-	private int gameState = 0;
-	private int numFormulaKeys;
-
-	public void SetState(int s)
+	public void SetState(eSystemState state)
 	{
-		gameState = s;
+		_systemState = state;
 	}
 
 	void Start () 
@@ -33,19 +38,19 @@ public class BallManager : MonoBehaviour
 
 		GetNumBallsInBucket();
 
-		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
-		numFormulaKeys = _formulaFactory.InitEquationSet();
-
 	}
 	
 	void Update () 
 	{
-		switch (gameState)
+		switch (_systemState)
 		{
-			case 0:
+			case eSystemState.noop:
 			break;
 
-			case 1:
+			case eSystemState.init:
+			break;
+
+			case eSystemState.active:
 			{
 				_elaspedTime += Time.deltaTime;
 				
@@ -106,7 +111,9 @@ public class BallManager : MonoBehaviour
 								{
 
 									int rScore = UnityEngine.Random.Range(0, 100);//temp random score
-									GameCommon.getPlayfieldManagerClass().SetMatchOverWithScore(rScore);
+
+									GameCommon.getGameplayManagerClass().PuzzleCompete(rScore);
+
 								}
 							}
 							else if(_centralCalculator.ErrorReport() > 0)
@@ -124,7 +131,7 @@ public class BallManager : MonoBehaviour
 			break;
 
 
-			case 2:
+			case eSystemState.done:
 			break;
 
 		}

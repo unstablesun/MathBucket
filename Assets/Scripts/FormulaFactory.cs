@@ -59,12 +59,6 @@ public class FormulaFactory : MonoBehaviour
 		//Debug.Log ("AddFormulaToken : keyIndex = " + keyIndex);
 	}
 	
-	public int InitEquationSet()
-	{
-		keyIndex = 0;
-		AddEquation(1, 1);
-		return keyIndex;
-	}
 
 
 	private FormulaToken GetFormulaToken(string key) 
@@ -126,44 +120,21 @@ public class FormulaFactory : MonoBehaviour
 		multOrDivide,
 	};
 
-
+	//deprecated
+	//public int InitEquationSet()
+	//{
+	//	keyIndex = 0;
+	//	AddEquation(1, 1);
+	//	return keyIndex;
+	//}
 
 	
-	private void AddEquation(int numEquations, int complexityCurve)
+	public void AddEquation(int level, int minRange, int maxRange, eOperandBias operandBias)
 	{
-		//unit tests
-		/*
-		AddFormulaToken (1, MathBall.eFunction.Digit);
-		AddFormulaToken ((int)MathBall.eOperator.Plus,  MathBall.eFunction.Operand);
-		AddFormulaToken (2, MathBall.eFunction.Digit);
-		AddFormulaToken ((int)MathBall.eOperator.Equals,  MathBall.eFunction.Operand);
-		AddFormulaToken (3, MathBall.eFunction.Digit);
-		
-		AddFormulaToken (5, MathBall.eFunction.Digit);
-		AddFormulaToken ((int)MathBall.eOperator.Multiply,  MathBall.eFunction.Operand);
-		AddFormulaToken (4, MathBall.eFunction.Digit);
-		AddFormulaToken ((int)MathBall.eOperator.Equals,  MathBall.eFunction.Operand);
-		AddFormulaToken (2, MathBall.eFunction.Digit);
-		AddFormulaToken (0, MathBall.eFunction.Digit);
-		*/
-
-		AddEquationForm(eEquationType.compexity1, 1, 10, eOperandBias.forcePlus );
-		AddEquationForm(eEquationType.compexity1, 1, 10, eOperandBias.forceMinus );
-
+		//use level to adjust values
+		AddEquationForm(eEquationType.compexity1, minRange, maxRange, operandBias );
 	}
-
-
-
-	private void convertDigitsToFormulaTokens(int input)
-	{
-		int[] digits = getDigits(input);
-		int num = digits.GetLength(0);
-		for(int i = 0; i < num; i++)
-		{
-			AddFormulaToken (digits[i], MathBall.eFunction.Digit);
-		}
-	}
-
+	
 	private void AddEquationForm(eEquationType eqForm, int minRange, int maxRange, eOperandBias operandBias)
 	{
 		switch( eqForm )
@@ -211,10 +182,6 @@ public class FormulaFactory : MonoBehaviour
 
 				AddFormulaToken ((int)MathBall.eOperator.Equals,  MathBall.eFunction.Operand);
 
-				//for division do a mult first then reverse example 4 * 5 = 20 : 20 / 4 = 5 or 20 / 5 = 4.
-				//more ex. 3 * 8 = 24 : 24 / 8 = 3.  12 * 8 = 96 : 96 / 12 = 8 or 96 / 8 = 12.
-				//for subtraction do an add first then reverse example 8+12=20 : 20-12=8 or 20-8=12 or even 12=20-8
-
 			}
 			break;
 
@@ -228,6 +195,16 @@ public class FormulaFactory : MonoBehaviour
 
 
 
+	}
+
+	private void convertDigitsToFormulaTokens(int input)
+	{
+		int[] digits = getDigits(input);
+		int num = digits.GetLength(0);
+		for(int i = 0; i < num; i++)
+		{
+			AddFormulaToken (digits[i], MathBall.eFunction.Digit);
+		}
 	}
 
 	private int[] getDigits(int fromThis)
@@ -288,6 +265,21 @@ public class FormulaFactory : MonoBehaviour
 
 
 
+	//unit tests
+	/*
+		AddFormulaToken (1, MathBall.eFunction.Digit);
+		AddFormulaToken ((int)MathBall.eOperator.Plus,  MathBall.eFunction.Operand);
+		AddFormulaToken (2, MathBall.eFunction.Digit);
+		AddFormulaToken ((int)MathBall.eOperator.Equals,  MathBall.eFunction.Operand);
+		AddFormulaToken (3, MathBall.eFunction.Digit);
+		
+		AddFormulaToken (5, MathBall.eFunction.Digit);
+		AddFormulaToken ((int)MathBall.eOperator.Multiply,  MathBall.eFunction.Operand);
+		AddFormulaToken (4, MathBall.eFunction.Digit);
+		AddFormulaToken ((int)MathBall.eOperator.Equals,  MathBall.eFunction.Operand);
+		AddFormulaToken (2, MathBall.eFunction.Digit);
+		AddFormulaToken (0, MathBall.eFunction.Digit);
+		*/
 
 
 
