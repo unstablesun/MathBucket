@@ -63,6 +63,9 @@ public class PlayfieldManager : MonoBehaviour
 				break;
 
 			case ePlayfieldState.gameplay:
+
+				SetCircularLoadAmount(0.5f);
+
 				break;
 				
 			case ePlayfieldState.displayResults:
@@ -75,6 +78,9 @@ public class PlayfieldManager : MonoBehaviour
 			case ePlayfieldState.showingResults:
 			{
 				_elaspedTime += Time.deltaTime;
+
+
+
 				
 				if(_elaspedTime > _puzzleResultsTime)
 				{
@@ -160,6 +166,22 @@ public class PlayfieldManager : MonoBehaviour
 			}
 		}
 	}
+
+	private void SetCircularLoadAmount (float amount) 
+	{
+		Image[] images = GamePlayOverlay.GetComponentsInChildren<Image>();
+		foreach (Image image in images)
+		{
+			if(image.name == "CircularLoadImage")
+			{
+				image.fillAmount = amount;
+			}
+			
+		}
+	}
+
+
+
 
 
 
