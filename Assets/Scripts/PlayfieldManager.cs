@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public class PlayfieldManager : MonoBehaviour 
 {
@@ -19,6 +20,7 @@ public class PlayfieldManager : MonoBehaviour
 
 	private GameObject EndGameOverlay = null;
 	private GameObject StartGameOverlay = null;
+	private GameObject GamePlayOverlay = null;
 
 
 	private float _elaspedTime = 0.0f;
@@ -37,6 +39,13 @@ public class PlayfieldManager : MonoBehaviour
 		{
 			StartGameOverlay.SetActive(true);
 		}
+
+		GamePlayOverlay = GameObject.Find("CanvasGamePlay");
+		if (GamePlayOverlay != null)
+		{
+			GamePlayOverlay.SetActive(false);
+		}
+
 
 		_playfieldState = ePlayfieldState.waitingToStart;
 
@@ -97,10 +106,10 @@ public class PlayfieldManager : MonoBehaviour
 	}
 
 	//only for last puzzle - wait and trigger next puzzle
-	public void SetPuzzleResults (int score) 
+	public void SetPuzzleResults (int score, int level) 
 	{
 		_playfieldState = ePlayfieldState.displayResults;
-
+		SetOverlayScoreAndLevel(score, level);
 	}
 
 
@@ -112,6 +121,11 @@ public class PlayfieldManager : MonoBehaviour
 		//remove canvas
 		if (StartGameOverlay != null)
 			StartGameOverlay.SetActive(false);
+
+		if (GamePlayOverlay != null)
+			GamePlayOverlay.SetActive(true);
+
+
 
 		_playfieldState = ePlayfieldState.gameplay;
 
@@ -125,6 +139,28 @@ public class PlayfieldManager : MonoBehaviour
 
 		Application.LoadLevel("MainMenu");
 	}
+
+
+
+	private void SetOverlayScoreAndLevel (int score, int level) 
+	{
+		Text[] texts = GamePlayOverlay.GetComponentsInChildren<Text>();
+		foreach (Text text in texts)
+		{
+			Debug.Log ("text found = " + text.name);
+			if(text.name == "InGameScoreText")
+			{
+				//text.enabled = enabled;
+				text.text = "Score : " + score;
+			}
+			else if(text.name == "InGameLevelText")
+			{
+				//text.enabled = enabled;
+				text.text = "Level : " + level;
+			}
+		}
+	}
+
 
 
 }

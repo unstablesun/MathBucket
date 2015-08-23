@@ -155,7 +155,7 @@ public class GameplayManager : MonoBehaviour
 
 			Debug.Log ("eGameState.puzzleResults");
 
-			GameCommon.getPlayfieldManagerClass().SetPuzzleResults(100);
+			GameCommon.getPlayfieldManagerClass().SetPuzzleResults(100, _gameLevel + 1);
 
 			_gameState = eGameState.waitingForPlayfield;
 			break;
