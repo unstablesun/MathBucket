@@ -60,11 +60,15 @@ public class PlayfieldManager : MonoBehaviour
 				break;
 
 			case ePlayfieldState.waitingToStart:
+				SetCircularLoadAmount(1.0f);
 				break;
 
 			case ePlayfieldState.gameplay:
 
-				SetCircularLoadAmount(0.5f);
+				//get timing value from gameplay manager
+
+				float remainingTime = GameCommon.getGameplayManagerClass().GetPuzzleTimeLeft();
+				SetCircularLoadAmount(remainingTime);
 
 				break;
 				

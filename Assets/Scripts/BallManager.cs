@@ -22,7 +22,7 @@ public class BallManager : MonoBehaviour
 
 
 	private float _elaspedTime = 0.0f;
-	private float _emmiterTime = 0.05f;
+	private float _emmiterTime = 0.01f;
 
 	public void SetState(eSystemState state)
 	{

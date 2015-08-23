@@ -38,7 +38,7 @@ public class GameplayManager : MonoBehaviour
 
 	public void StartGame () 
 	{
-
+		GameCommon.getFormulaFactoryClass().SetFormulaSeed(42);
 		_gameState = eGameState.selectFormulas;
 
 	}
@@ -62,6 +62,16 @@ public class GameplayManager : MonoBehaviour
 		_gameLevel++;
 		
 	}
+
+	public float GetPuzzleTimeLeft () 
+	{
+		float remainingTime = 1.0f;
+		float rtime = _puzzleDurationTime - _elaspedPuzzleTime;
+		remainingTime = rtime * 1.0f / _puzzleDurationTime;
+
+		return remainingTime;
+	}
+
 
 	void SetupPuzzle () 
 	{

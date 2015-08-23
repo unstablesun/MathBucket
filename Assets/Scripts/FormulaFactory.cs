@@ -34,11 +34,18 @@ public class FormulaFactory : MonoBehaviour
 	{
 		Debug.Log ("FormulaFactory Start()");
 	}
+
+
+	public void SetFormulaSeed (int seed) 
+	{
+		UnityEngine.Random.seed = seed;
+	}
 	
 	public void ResetFormulaTokenList () 
 	{
 		keyIndex = 0;
 		FormulaTokens.Clear ();
+
 	}
 
 	public void AddFormulaToken (int value, MathBall.eFunction function) 
@@ -185,7 +192,7 @@ public class FormulaFactory : MonoBehaviour
 			}
 			break;
 
-			case eEquationType.compexity2:
+			case eEquationType.compexity2://a*b=c/d, etc...
 			{
 				int inputA = UnityEngine.Random.Range(minRange, maxRange);
 				
