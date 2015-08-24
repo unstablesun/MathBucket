@@ -194,7 +194,7 @@ public class GameplayManager : MonoBehaviour
 		case eGameState.gameover:
 			//tell playfield no more puzzles coming - send final data
 
-			GameCommon.getPlayfieldManagerClass().SetMatchOverWithScore(100);
+			GameCommon.getPlayfieldManagerClass().SetMatchOverWithScore(_gameScore);
 
 			_gameState = eGameState.waitingForPlayfield;
 			break;
