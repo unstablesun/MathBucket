@@ -94,14 +94,14 @@ public class GameplayManager : MonoBehaviour
 		case 1:
 
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-			_puzzleDurationTime = 5.0f;
+			_puzzleDurationTime = 15.0f;
 			break;
 
 		case 2:
 			
 			_formulaFactory.AddEquation(0, 1, 18, FormulaFactory.eOperandBias.forceMinus );
 
-			_puzzleDurationTime = 30.0f;
+			_puzzleDurationTime = 15.0f;
 			break;
 
 		case 3:
@@ -109,7 +109,7 @@ public class GameplayManager : MonoBehaviour
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMinus );
 
-			_puzzleDurationTime = 50.0f;
+			_puzzleDurationTime = 30.0f;
 			break;
 
 		case 4:
@@ -117,7 +117,7 @@ public class GameplayManager : MonoBehaviour
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
 
-			_puzzleDurationTime = 50.0f;
+			_puzzleDurationTime = 30.0f;
 			break;
 
 		case 5:
@@ -125,7 +125,7 @@ public class GameplayManager : MonoBehaviour
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
 
-			_puzzleDurationTime = 50.0f;
+			_puzzleDurationTime = 30.0f;
 			break;
 
 		case 6:
@@ -134,8 +134,26 @@ public class GameplayManager : MonoBehaviour
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
 
-			_puzzleDurationTime = 100.0f;
+			_puzzleDurationTime = 50.0f;
 			break;
+
+		case 7:
+			
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
+			
+			_puzzleDurationTime = 30.0f;
+			break;
+
+		default:
+
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
+			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
+
+			_puzzleDurationTime = 20.0f;
+			break;
+
+
 		}
 
 

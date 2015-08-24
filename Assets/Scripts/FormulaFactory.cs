@@ -33,6 +33,8 @@ public class FormulaFactory : MonoBehaviour
 	void Start ()
 	{
 		Debug.Log ("FormulaFactory Start()");
+
+		ResetFormulaTokenList ();
 	}
 
 
