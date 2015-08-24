@@ -94,7 +94,7 @@ public class GameplayManager : MonoBehaviour
 		case 1:
 
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-			_puzzleDurationTime = 30.0f;
+			_puzzleDurationTime = 5.0f;
 			break;
 
 		case 2:

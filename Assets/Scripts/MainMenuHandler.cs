@@ -7,12 +7,22 @@ public class MainMenuHandler : MonoBehaviour
 {
 	public static bool sComingFromGame = false;
 
+
+	public enum eGameType 
+	{
+		practice,
+		fuelEasy,
+		fuelHard,
+		fuelGenius,
+	};
+	private static eGameType _gameType = eGameType.practice;
+
 	void Start () 
 	{
 		PropellerSDK.SyncChallengeCounts ();
 		PropellerSDK.SyncTournamentInfo ();
 		
-		if (sComingFromGame == true) 
+		if (sComingFromGame == true && _gameType != eGameType.practice) 
 		{
 			
 			GameCommon.getFuelHandlerClass().LaunchPropeller();
@@ -21,16 +31,28 @@ public class MainMenuHandler : MonoBehaviour
 
 	}
 	
-	void Update () {
+	void Update () 
+	{
 	
 	}
 
 
-
-	public void Launch () 
+	public void LaunchPractice () 
 	{
-		GameCommon.getFuelHandlerClass().Launch ();
+		_gameType = eGameType.practice;
+		Application.LoadLevel("PlayField");
+
 	}
+
+	public void LaunchEasy () 
+	{
+
+		_gameType = eGameType.fuelEasy;
+		GameCommon.getFuelHandlerClass().Launch ();
+
+	}
+
+
 
 	public void RefreshChallengeCount(int challengeCount)
 	{

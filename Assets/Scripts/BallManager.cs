@@ -34,11 +34,15 @@ public class BallManager : MonoBehaviour
 
 	void Start () 
 	{
-	
+		//clear
+		BallObjects.Clear ();
+		BallAnimObjects.Clear ();
+
 		GameCommon.InitDefaults();
 		PreLoadBallPrefabs();
 		PreLoadBallAnimPrefabs();
 
+		//debug
 		GetNumBallsInBucket();
 
 	}
