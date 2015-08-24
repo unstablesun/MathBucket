@@ -94,14 +94,14 @@ public class GameplayManager : MonoBehaviour
 		case 1:
 
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-			_puzzleDurationTime = 15.0f;
+			_puzzleDurationTime = 30.0f;
 			break;
 
 		case 2:
 			
 			_formulaFactory.AddEquation(0, 1, 18, FormulaFactory.eOperandBias.forceMinus );
 
-			_puzzleDurationTime = 15.0f;
+			_puzzleDurationTime = 30.0f;
 			break;
 
 		case 3:
@@ -134,7 +134,7 @@ public class GameplayManager : MonoBehaviour
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
 			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
 
-			_puzzleDurationTime = 50.0f;
+			_puzzleDurationTime = 30.0f;
 			break;
 
 		case 7:

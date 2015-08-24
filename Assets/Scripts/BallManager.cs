@@ -75,13 +75,13 @@ public class BallManager : MonoBehaviour
 				
 				if (Input.GetMouseButtonDown (0)) 
 				{
-					Debug.Log ("Clicked");
+					//Debug.Log ("Clicked");
 					Vector2 pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 					RaycastHit2D hitInfo = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(pos), Vector2.zero);
 					// RaycastHit2D can be either true or null, but has an implicit conversion to bool, so we can use it like this
 					if(hitInfo)
 					{
-						Debug.Log( hitInfo.transform.gameObject.name );
+						//Debug.Log( hitInfo.transform.gameObject.name );
 						
 						GameObject _gObj = hitInfo.transform.gameObject;
 						MathBall _mathBallScript = _gObj.GetComponent<MathBall> ();
@@ -253,7 +253,7 @@ public class BallManager : MonoBehaviour
 				count++;
 			}
 		}
-		Debug.Log ("GetNumBallsInBucket = " + count);
+		//Debug.Log ("GetNumBallsInBucket = " + count);
 		return count;
 	}
 

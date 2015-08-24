@@ -57,7 +57,7 @@ public class CentralCalculator : MonoBehaviour
 		
 	public bool AnalyseCalcTokenList () 
 	{
-		Debug.Log ("AnalyseCalcTokenList");
+		//Debug.Log ("AnalyseCalcTokenList");
 		bool result = false;
 
 		//equation
@@ -191,7 +191,7 @@ public class CentralCalculator : MonoBehaviour
 			rightSide = value;
 		}
 
-		Debug.Log ("leftSide="+leftSide+":rightSide="+rightSide);
+		//Debug.Log ("leftSide="+leftSide+":rightSide="+rightSide);
 
 		if (bothSides == true && leftSide == rightSide) 
 		{
