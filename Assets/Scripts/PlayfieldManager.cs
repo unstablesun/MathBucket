@@ -111,6 +111,9 @@ public class PlayfieldManager : MonoBehaviour
 	{
 		if (EndGameOverlay != null)
 			EndGameOverlay.SetActive(true);
+
+
+		SetOverlayFinalScore(score);
 		
 		GameCommon.getFuelHandlerClass ().SetMatchScore (score);
 	}
@@ -150,6 +153,20 @@ public class PlayfieldManager : MonoBehaviour
 		Application.LoadLevel("MainMenu");
 	}
 
+
+	private void SetOverlayFinalScore (int score) 
+	{
+		Text[] texts = EndGameOverlay.GetComponentsInChildren<Text>();
+		foreach (Text text in texts)
+		{
+			Debug.Log ("text found = " + text.name);
+			if(text.name == "FinalScoreText")
+			{
+				//text.enabled = enabled;
+				text.text = "Score : " + score;
+			}
+		}
+	}
 
 
 	private void SetOverlayScoreAndLevel (int score, int level) 

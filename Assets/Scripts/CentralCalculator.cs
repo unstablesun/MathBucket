@@ -138,27 +138,27 @@ public class CentralCalculator : MonoBehaviour
 				{
 					case MathBall.eOperator.Plus:
 						value += equation [idx];
-						score += 1;
+						score += 4;
 						break;
 					case MathBall.eOperator.Minus:
 						value -= equation [idx];
-						score += 2;
+						score += 5;
 						break;
 					case MathBall.eOperator.Multiply:
 						value *= equation [idx];
-						score += 3;
+						score += 6;
 						break;
 					case MathBall.eOperator.Divide:
 						value /= equation [idx];
-						score += 4;
+						score += 7;
 						break;
 					case MathBall.eOperator.Power:
 						value = (int)Math.Pow(value, equation [idx]);
-						score += 5;
+						score += 8;
 						break;
 					case MathBall.eOperator.Modulus:
 						value %= equation [idx];
-						score += 6;
+						score += 9;
 						break;
 				}
 			} 

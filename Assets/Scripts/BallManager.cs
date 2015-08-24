@@ -162,7 +162,7 @@ public class BallManager : MonoBehaviour
 		GameObject mathBall = Instantiate(Resources.Load(prefabName, typeof(GameObject))) as GameObject;
 		
 		mathBall.name = "mathBall" + index;
-		int spanx = UnityEngine.Random.Range(-2, 2);
+		int spanx = UnityEngine.Random.Range(-1, 1);
 		mathBall.transform.position = new Vector3((float)spanx, 20f, 0f);
 		
 		MathBall _mathBallScript = mathBall.GetComponent<MathBall> ();
@@ -198,8 +198,9 @@ public class BallManager : MonoBehaviour
 
 			MathBall _mathBallScript = mathBall.GetComponent<MathBall> ();
 			_mathBallScript._state = MathBall.eState.InBucket;
-			GetNumBallsInBucket();
 
+			//debug
+			GetNumBallsInBucket();
 
 			MathBall.eFunction _ballFunction = _formulaFactory.ball_function;
 			int _ballValue = _formulaFactory.ball_value;
@@ -211,6 +212,8 @@ public class BallManager : MonoBehaviour
 			{
 				setBallColor(mathBall, GameCommon.ballColorBackDigit);
 				setBallScale(mathBall, GameCommon.ballScaleDigit);
+
+				setBallHiliteColor(mathBall, GameCommon.ballColorBackDigit);
 			}
 			else if(_ballFunction == MathBall.eFunction.Operand)
 			{
@@ -218,11 +221,13 @@ public class BallManager : MonoBehaviour
 				{
 					setBallColor(mathBall, GameCommon.ballColorBackEquals);
 					setBallScale(mathBall, GameCommon.ballScaleEquals);
+					setBallHiliteColor(mathBall, GameCommon.ballColorBackEquals);
 				}
 				else
 				{
 					setBallColor(mathBall, GameCommon.ballColorBackOperand);
 					setBallScale(mathBall, GameCommon.ballScaleOperand);
+					setBallHiliteColor(mathBall, GameCommon.ballColorBackOperand);
 				}
 			}
 
@@ -292,9 +297,11 @@ public class BallManager : MonoBehaviour
 				_mathBallAnim.SetActive(true);
 				setAllChildrenActive(_mathBallAnim, true);
 
+				_mathBallAnimScript.setBallRemovalColors();
+
 
 				//remove from bucket
-				int spanx = UnityEngine.Random.Range(-5, 5);
+				int spanx = UnityEngine.Random.Range(-1, 1);
 				gObj.transform.position = new Vector3((float)spanx, 20f, 0f);
 				gObj.SetActive(false);
 				setAllChildrenActive(gObj, false);
@@ -352,6 +359,13 @@ public class BallManager : MonoBehaviour
 		GameObject image = getChildGameObject(_gObj, "image1");
 		image.GetComponent<Renderer>().material.color = _c;
 	}
+
+	private void setBallHiliteColor(GameObject _gObj, Color _c)
+	{
+		MathBall _mathBallScript = _gObj.GetComponent<MathBall> ();
+		_mathBallScript.setBallHiliteColor(_c);
+	}
+
 	
 	void setBallScale(GameObject gObj, float _scale) 
 	{
@@ -418,7 +432,7 @@ public class BallManager : MonoBehaviour
 		//setBallColor(mathBallAnim, new Color(0.5f, 1f,1f, 0.5f));
 
 		_mathBallScript.setBallColor(new Color(0.5f, 0.5f, 0.5f, 0.5f));
-		_mathBallScript.setBallTextColor(new Color(0.5f, 0.0f, 0.5f, 0.5f));
+		_mathBallScript.setBallTextColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
 		
 		//WARNING! when you load a prefab at this point "void Start()" is still to be called and may overwrite anything you set here.
 	}

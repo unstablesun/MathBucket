@@ -195,7 +195,7 @@ public class MathBall : MonoBehaviour
 		image.GetComponent<Renderer>().material.color = _c;
 	}
 
-	private void setBallHiliteColor(Color _c)
+	public void setBallHiliteColor(Color _c)
 	{
 		GameObject image = _getChildGameObject("hilite1");
 		image.GetComponent<Renderer>().material.color = _c;

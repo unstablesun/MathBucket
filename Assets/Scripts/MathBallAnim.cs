@@ -83,6 +83,18 @@ public class MathBallAnim : MonoBehaviour
 	}
 
 
+	public void setBallRemovalColors()
+	{
+		GameObject image = _getChildGameObject("image1");
+		image.GetComponent<Renderer>().material.color = getRandomPrimaryColor();
+
+		GameObject _ballText = _getChildGameObject("text1");
+		_ballText.GetComponent<Renderer>().material.color = getRandomPrimaryColor();
+
+		GameObject imageHi = _getChildGameObject("hilite1");
+		imageHi.GetComponent<Renderer>().material.color = getRandomPrimaryColor();
+	}
+
 	private GameObject _getChildGameObject(string withName) 
 	{
 		foreach (Transform child in transform)
@@ -125,8 +137,21 @@ public class MathBallAnim : MonoBehaviour
 		GameObject image = _getChildGameObject("image1");
 		GameObject text = _getChildGameObject("text1");
 		GameObject hilite = _getChildGameObject("hilite1");
-
 	}		
 
+	private Color getRandomPrimaryColor()
+	{
+		float r = 1, g = 1, b = 1;
+		float dim = 0.6f;
+		int rn = UnityEngine.Random.Range(0, 6);
+		if(rn == 0){r = dim;}
+		else if(rn == 1){g = dim;}
+		else if(rn == 2){b = dim;}
+		else if(rn == 3){r = dim;g = dim;}
+		else if(rn == 4){g = dim;b = dim;}
+		else if(rn == 5){b = dim;r = dim;}
+
+		return new Color(r, g, b, 1f);
+	}
 
 }
