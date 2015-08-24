@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.slipperysalmon.mathbucket"
+    package="com.fuelpowered.propellertestproject"
 	android:installLocation="preferExternal"
     android:versionCode="1"
     android:versionName="1.0">
@@ -32,11 +32,11 @@
         android:name="com.google.android.c2dm.permission.RECEIVE" />
 
 	<permission
-		android:name="com.slipperysalmon.mathbucket.permission.C2D_MESSAGE"
+		android:name="com.fuelpowered.propellertestproject.permission.C2D_MESSAGE"
 		android:protectionLevel="signature" />
 		
 	<uses-permission
-        android:name="com.slipperysalmon.mathbucket.permission.C2D_MESSAGE" />
+        android:name="com.fuelpowered.propellertestproject.permission.C2D_MESSAGE" />
 
     <supports-screens
         android:resizeable="true"
@@ -103,7 +103,7 @@
                     android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
                 <category
-                    android:name="com.slipperysalmon.mathbucket" />
+                    android:name="com.fuelpowered.propellertestproject" />
 
             </intent-filter>
 
