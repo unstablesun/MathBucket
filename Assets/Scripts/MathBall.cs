@@ -146,7 +146,7 @@ public class MathBall : MonoBehaviour
 		}
 		else
 		{
-			setBallHiliteColor(new Color(1.0f, 0.5f, 0.2f, 1f));
+			setBallHiliteColor(new Color(1.0f, 0.2f, 0.1f, 1f));
 			_state = eState.Selected;
 		}
 

@@ -30,7 +30,8 @@ public class GameplayManager : MonoBehaviour
 
 	void Reset () 
 	{
-		_gameLevel = 0;
+		_gameLevel = 1;
+		_gameScore = 0;
 		_gameState = eGameState.init;
 	}
 
@@ -200,7 +201,7 @@ public class GameplayManager : MonoBehaviour
 
 			Debug.Log ("eGameState.puzzleResults");
 
-			GameCommon.getPlayfieldManagerClass().SetPuzzleResults(_gameScore, _gameLevel);
+			GameCommon.getPlayfieldManagerClass().SetPuzzleResults(_gameScore, _gameLevel+1);
 
 			_gameState = eGameState.waitingForPlayfield;
 			break;
