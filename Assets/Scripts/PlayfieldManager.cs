@@ -24,7 +24,7 @@ public class PlayfieldManager : MonoBehaviour
 
 
 	private float _elaspedTime = 0.0f;
-	private float _puzzleResultsTime = 1.0f;
+	private float _puzzleResultsTime = 0.2f;
 
 	void Start () 
 	{

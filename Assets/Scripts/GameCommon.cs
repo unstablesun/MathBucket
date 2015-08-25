@@ -19,13 +19,13 @@ public class GameCommon : MonoBehaviour
 	{
 		//default colors & scales
 		ballColorBackDigit = new Color(0.9f, 0.9f, 0.9f, 1f);
-		ballScaleDigit = 1f;
+		ballScaleDigit = 0.3f;
 
 		ballColorBackOperand = new Color(0.5f, 0.5f, 0.5f, 1f);
-		ballScaleOperand = 0.75f;
+		ballScaleOperand = 0.25f;
 
 		ballColorBackEquals = new Color(0.3f, 0.3f, 0.3f, 1f);
-		ballScaleEquals = 0.65f;
+		ballScaleEquals = 0.2f;
 
 		ballColorHilite = new Color(0.9f, 0.9f, 0.9f, 1f);
 
