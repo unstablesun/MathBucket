@@ -41,6 +41,12 @@ public class GameplayManager : MonoBehaviour
 
 		_gameState = eGameState.selectFormulas;
 
+
+
+		SetupPuzzleCurveData (2, 1, 5, 
+		                      (int)FormulaFactory.eOperandBias.forceDivide, 50, 50,
+		                      4, 1);
+
 	}
 
 	public void PuzzleCompete (int score) 
@@ -83,82 +89,6 @@ public class GameplayManager : MonoBehaviour
 	}
 
 
-	void SetupPuzzle () 
-	{
-		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
-
-		_elaspedPuzzleTime = 0.0f;
-		switch( _gameLevel )
-		{
-		case 1:
-
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-			_puzzleDurationTime = 30.0f;
-			break;
-
-		case 2:
-			
-			_formulaFactory.AddEquation(0, 1, 18, FormulaFactory.eOperandBias.forceMinus );
-
-			_puzzleDurationTime = 30.0f;
-			break;
-
-		case 3:
-			
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMinus );
-
-			_puzzleDurationTime = 30.0f;
-			break;
-
-		case 4:
-			
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-
-			_puzzleDurationTime = 30.0f;
-			break;
-
-		case 5:
-
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
-
-			_puzzleDurationTime = 30.0f;
-			break;
-
-		case 6:
-
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forcePlus );
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
-
-			_puzzleDurationTime = 30.0f;
-			break;
-
-		case 7:
-			
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceDivide );
-			
-			_puzzleDurationTime = 30.0f;
-			break;
-
-		default:
-
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
-			_formulaFactory.AddEquation(0, 1, 10, FormulaFactory.eOperandBias.forceMult );
-
-			_puzzleDurationTime = 20.0f;
-			break;
-
-
-		}
-
-
-	}
-
-
 	void Update () 
 	{
 
@@ -168,7 +98,7 @@ public class GameplayManager : MonoBehaviour
 			break;
 
 		case eGameState.selectFormulas:
-			SetupPuzzle();
+			AdvancePuzzleCurve();
 			_gameState = eGameState.puzzleReady;
 			break;
 
@@ -245,7 +175,7 @@ public class GameplayManager : MonoBehaviour
 
 	private PuzzleCurveData mPuzzleCurveData;
 
-	//set once per game
+	//set once at the start of the game
 	public void SetupPuzzleCurveData (int minMaxThreshold, int minRange, int maxRange, 
 	                           int operatorPreference, int operatorPreferenceProb, int sameOperatorProb,
 	                           int numEquationThreshold, int numEquations) 
@@ -262,7 +192,7 @@ public class GameplayManager : MonoBehaviour
 		mPuzzleCurveData.numEquations = numEquations;
 	}
 
-	void AdvancePuzzleCurve () 
+	private void AdvancePuzzleCurve () 
 	{
 		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
 
@@ -274,8 +204,6 @@ public class GameplayManager : MonoBehaviour
 		int operatorPreferenceProb = mPuzzleCurveData.operatorPreferenceProb;
 		int sameOperatorProb = mPuzzleCurveData.sameOperatorProb;
 
-		//int operatorType = UnityEngine.Random.Range(0, 5);//0-3
-
 		FormulaFactory.eOperandBias operand = FormulaFactory.eOperandBias.forcePlus;
 		FormulaFactory.eOperandBias firstOperand = FormulaFactory.eOperandBias.forcePlus;
 
@@ -286,7 +214,7 @@ public class GameplayManager : MonoBehaviour
 
 
 			bool operatorSet = false;
-			if(i>0)
+			if(i > 0)
 			{
 				int chanceSame = UnityEngine.Random.Range(0, 100);
 				if(chanceSame < sameOperatorProb)
@@ -351,6 +279,10 @@ public class GameplayManager : MonoBehaviour
 			mPuzzleCurveData.numEquations = numEquations;
 			
 		}
+
+		_elaspedPuzzleTime = 0.0f;
+		_puzzleDurationTime = 30.0f;
+
 
 	}
 
