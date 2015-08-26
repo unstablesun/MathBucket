@@ -5,6 +5,14 @@ public class GameplayManager : MonoBehaviour
 {
 	//each game and final score is divided into a series of equation puzzles
 
+	public enum eGameDifficulty 
+	{
+		learning,
+		easy,
+		hard,
+		genius,
+	};
+	public eGameDifficulty _gameDifficulty = eGameDifficulty.easy;
 
 	public enum eGameState 
 	{
@@ -20,6 +28,7 @@ public class GameplayManager : MonoBehaviour
 
 	private float _elaspedPuzzleTime = 0.0f;
 	private float _puzzleDurationTime = 5.0f;
+	private float _singleEquationTime = 15.0f;
 	private int _gameLevel = 1;
 	private int _gameScore = 0;
 
@@ -42,10 +51,51 @@ public class GameplayManager : MonoBehaviour
 		_gameState = eGameState.selectFormulas;
 
 
+		//select random paramters based on difficulty
 
-		SetupPuzzleCurveData (2, 1, 5, 
-		                      (int)FormulaFactory.eOperandBias.forceDivide, 50, 50,
-		                      4, 1);
+		int difficulty = 1;
+
+		bool parameterStrict = true;
+
+		//set default values
+		int minMaxThres = 4;
+		int min = 1;
+		int max = 5;
+
+		int operandPref = (int)FormulaFactory.eOperandBias.any;
+		int prefProb = 80;
+		int sameProb = 90;
+
+		int numEquaThres = 6;
+		int numEqua = 1;
+		int numEquaCap = 2;
+
+		if (_gameDifficulty == eGameDifficulty.easy) 
+		{
+
+
+		}
+		else if (_gameDifficulty == eGameDifficulty.hard) 
+		{
+			max = 8;
+			
+		}
+		else if (_gameDifficulty == eGameDifficulty.genius) 
+		{
+			min = 0;
+			max = 12;
+			
+		}
+		else if (_gameDifficulty == eGameDifficulty.learning) 
+		{
+			prefProb = 100;
+			sameProb = 100;
+
+		}
+
+		SetupPuzzleCurveData (minMaxThres, min, max, //minMaxThreshold, min, max
+		                      operandPref, prefProb, sameProb, //operand, prefprob, prob of same in two+ equarions
+		                      numEquaThres, numEqua, numEquaCap); //num equation threshold, starting num equations
 
 	}
 
@@ -168,6 +218,7 @@ public class GameplayManager : MonoBehaviour
 
 		public int numEquationThreshold { get; set; }
 		public int numEquations { get; set; }
+		public int numEquationsCap { get; set; }
 
 		public int resetRangeAfterEquationInc { get; set; }
 
@@ -176,9 +227,9 @@ public class GameplayManager : MonoBehaviour
 	private PuzzleCurveData mPuzzleCurveData;
 
 	//set once at the start of the game
-	public void SetupPuzzleCurveData (int minMaxThreshold, int minRange, int maxRange, 
-	                           int operatorPreference, int operatorPreferenceProb, int sameOperatorProb,
-	                           int numEquationThreshold, int numEquations) 
+	public void SetupPuzzleCurveData (	int minMaxThreshold, int minRange, int maxRange, 
+	                           			int operatorPreference, int operatorPreferenceProb, int sameOperatorProb,
+	                           			int numEquationThreshold, int numEquations, int numEquationsCap) 
 	{
 		mPuzzleCurveData.minMaxThreshold = minMaxThreshold;
 		mPuzzleCurveData.minRange = minRange;
@@ -190,6 +241,7 @@ public class GameplayManager : MonoBehaviour
 
 		mPuzzleCurveData.numEquationThreshold = numEquationThreshold;
 		mPuzzleCurveData.numEquations = numEquations;
+		mPuzzleCurveData.numEquationsCap = numEquationsCap;
 	}
 
 	private void AdvancePuzzleCurve () 
@@ -209,6 +261,8 @@ public class GameplayManager : MonoBehaviour
 
 		int numEquationThreshold = mPuzzleCurveData.numEquationThreshold;
 		int numEquations = mPuzzleCurveData.numEquations;
+		int numEquationsCap = mPuzzleCurveData.numEquationsCap;
+
 		for (int i = 0; i < numEquations; i++) 
 		{
 
@@ -259,6 +313,10 @@ public class GameplayManager : MonoBehaviour
 
 		}
 
+		_elaspedPuzzleTime = 0.0f;
+		_puzzleDurationTime = _singleEquationTime * (float)numEquations;
+
+
 		//update thresholds
 		if (_gameLevel % minMaxThreshold == 0) {
 
@@ -274,15 +332,13 @@ public class GameplayManager : MonoBehaviour
 			
 			//crossed threshold
 			//advance some curve data
-			
-			numEquations++;
-			mPuzzleCurveData.numEquations = numEquations;
-			
+
+			if(numEquations < numEquationsCap)
+			{
+				numEquations++;
+				mPuzzleCurveData.numEquations = numEquations;
+			}
 		}
-
-		_elaspedPuzzleTime = 0.0f;
-		_puzzleDurationTime = 30.0f;
-
 
 	}
 
