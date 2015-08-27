@@ -24,7 +24,7 @@ public class PlayfieldManager : MonoBehaviour
 
 
 	private float _elaspedTime = 0.0f;
-	private float _puzzleResultsTime = 0.2f;
+	private float _puzzleResultsTime = 0.1f;
 
 	void Start () 
 	{
@@ -141,6 +141,8 @@ public class PlayfieldManager : MonoBehaviour
 
 
 		_playfieldState = ePlayfieldState.gameplay;
+
+		GameCommon.getGameplayManagerClass()._gameDifficulty = GameplayManager.eGameDifficulty.hard;
 
 		GameCommon.getGameplayManagerClass().StartGame();
 	}

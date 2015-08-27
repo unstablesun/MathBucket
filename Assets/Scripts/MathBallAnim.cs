@@ -7,7 +7,7 @@ public class MathBallAnim : MonoBehaviour
 	public class Move
 	{
 		public float velcity = 50.0f;
-		public float animTime = 1.0f;
+		public float animTime = 2.0f;
 		public bool x_axis = false;
 		public bool y_axis = false;
 		public bool z_axis = false;
@@ -38,6 +38,9 @@ public class MathBallAnim : MonoBehaviour
 	{
 		_elaspedTime = 0.0f;
 		_state = eState.Animating;
+
+		GameObject _ps = _getChildGameObject("ParticleEmitter1");
+		_ps.GetComponent<ParticleSystem>().Play();
 	}
 
 	
