@@ -39,8 +39,8 @@ public class MathBallAnim : MonoBehaviour
 		_elaspedTime = 0.0f;
 		_state = eState.Animating;
 
-		GameObject _ps = _getChildGameObject("ParticleEmitter1");
-		_ps.GetComponent<ParticleSystem>().Play();
+		//GameObject _ps = _getChildGameObject("ParticleEmitter1");
+		//_ps.GetComponent<ParticleSystem>().Play();
 	}
 
 	
