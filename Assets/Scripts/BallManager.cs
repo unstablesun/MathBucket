@@ -298,7 +298,7 @@ public class BallManager : MonoBehaviour
 				int ball_value = _mathBallScript.ball_value;
 
 				//use ball_value to select correct particle
-
+				GameCommon.getParticleDepotClass().PlayAtPosition(ball_value, new Vector3(gObj.transform.position.x, gObj.transform.position.y, gObj.transform.position.z));
 				MathBallAnim _mathBallAnimScript = _mathBallAnim.GetComponent<MathBallAnim> ();
 				_mathBallAnimScript.setBallText(ball_value.ToString());
 				_mathBallAnimScript.startAnim();

@@ -117,4 +117,17 @@ public class GameCommon : MonoBehaviour
 		throw new Exception();
 	}
 
+	static public ParticleDepot getParticleDepotClass()
+	{
+		GameObject _particleDepot = GameObject.Find("ParticleDepot");
+		if (_particleDepot != null) {
+			ParticleDepot _particleDepotScript = _particleDepot.GetComponent<ParticleDepot> ();
+			if(_particleDepotScript != null) {
+				return _particleDepotScript;
+			}
+			throw new Exception();
+		}
+		throw new Exception();
+	}
+
 }
