@@ -295,7 +295,12 @@ public class BallManager : MonoBehaviour
 				_mathBallAnim.transform.position =  new Vector3(gObj.transform.position.x, gObj.transform.position.y, gObj.transform.position.z);
 				_mathBallAnim.transform.localScale = gObj.transform.localScale;
 
+				int ball_value = _mathBallScript.ball_value;
+
+				//use ball_value to select correct particle
+
 				MathBallAnim _mathBallAnimScript = _mathBallAnim.GetComponent<MathBallAnim> ();
+				_mathBallAnimScript.setBallText(ball_value.ToString());
 				_mathBallAnimScript.startAnim();
 
 				_mathBallAnim.SetActive(true);
