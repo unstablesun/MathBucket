@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MathBall : MonoBehaviour 
 {
+	public AudioSource sfxSelected = null;
 
 	public enum eFunction 
 	{
@@ -148,6 +149,11 @@ public class MathBall : MonoBehaviour
 		{
 			setBallHiliteColor(new Color(1.0f, 0.2f, 0.1f, 1f));
 			_state = eState.Selected;
+
+			if(sfxSelected != null)
+			{
+				sfxSelected.Play();
+			}
 		}
 
 
