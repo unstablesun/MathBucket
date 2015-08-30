@@ -130,4 +130,17 @@ public class GameCommon : MonoBehaviour
 		throw new Exception();
 	}
 
+	static public AudioDepot getAudioDepotClass()
+	{
+		GameObject _audioDepot = GameObject.Find("AudioDepot");
+		if (_audioDepot != null) {
+			AudioDepot _audioDepotScript = _audioDepot.GetComponent<AudioDepot> ();
+			if(_audioDepotScript != null) {
+				return _audioDepotScript;
+			}
+			throw new Exception();
+		}
+		throw new Exception();
+	}
+
 }

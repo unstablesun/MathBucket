@@ -93,6 +93,8 @@ public class BallManager : MonoBehaviour
 							
 							//is ball already selected?
 							//clear with zonk
+							GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.matchReset);
+
 						}
 						else
 						{
@@ -119,6 +121,12 @@ public class BallManager : MonoBehaviour
 								if(GetNumBallsInBucket() == 0)
 								{
 									GameCommon.getGameplayManagerClass().PuzzleCompete(_score);
+
+									GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.puzzleDone);
+								}
+								else
+								{
+									GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.matchMade);
 								}
 							}
 							else if(_centralCalculator.ErrorReport() > 0)
