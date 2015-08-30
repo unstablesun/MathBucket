@@ -184,8 +184,10 @@ public class MathBallAnim : MonoBehaviour
 
 	private Color getRandomPrimaryColor()
 	{
+		float rf = UnityEngine.Random.Range(0.1f, 0.9f);
+
 		float r = 1, g = 1, b = 1;
-		float dim = 0.2f;
+		float dim = rf;//0.2f;
 		int rn = UnityEngine.Random.Range(0, 6);
 		if(rn == 0){r = dim;}
 		else if(rn == 1){g = dim;}
