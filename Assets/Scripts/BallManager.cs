@@ -300,7 +300,7 @@ public class BallManager : MonoBehaviour
 			{
 				//setup anim ball
 				GameObject _mathBallAnim = GetAvailableBallAnim();
-				_mathBallAnim.transform.position =  new Vector3(gObj.transform.position.x, gObj.transform.position.y, gObj.transform.position.z);
+				_mathBallAnim.transform.position =  new Vector3(gObj.transform.position.x, gObj.transform.position.y, -4);
 				_mathBallAnim.transform.localScale = gObj.transform.localScale;
 
 				int ball_value = _mathBallScript.ball_value;
