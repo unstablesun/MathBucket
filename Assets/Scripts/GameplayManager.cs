@@ -66,7 +66,7 @@ public class GameplayManager : MonoBehaviour
 		int prefProb = 80;
 		int sameProb = 90;
 
-		int numEquaThres = 2;
+		int numEquaThres = 6;//option to reset min max when threshold crossed
 		int numEqua = 1;
 		int numEquaCap = 2;
 

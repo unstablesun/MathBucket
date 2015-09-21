@@ -15,6 +15,7 @@ public class ParticleDepot : MonoBehaviour
 	public GameObject _emitter8 = null;
 	public GameObject _emitter9 = null;
 
+	public GameObject _emitterBonus = null;
 
 	public void PlayAtPosition(int ballValue, Vector3 epos)
 	{
@@ -94,5 +95,15 @@ public class ParticleDepot : MonoBehaviour
 		}
 		
 	}
+
+	public void PlayBonus()
+	{
+		if(_emitterBonus != null)
+		{
+			_emitterBonus.GetComponent<ParticleSystem>().Play();
+		}
+
+	}
+
 
 }

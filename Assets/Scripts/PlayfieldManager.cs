@@ -21,6 +21,7 @@ public class PlayfieldManager : MonoBehaviour
 	private GameObject EndGameOverlay = null;
 	private GameObject StartGameOverlay = null;
 	private GameObject GamePlayOverlay = null;
+	private GameObject GameBackingOverlay = null;
 
 
 	private float _elaspedTime = 0.0f;
@@ -46,6 +47,11 @@ public class PlayfieldManager : MonoBehaviour
 			GamePlayOverlay.SetActive(false);
 		}
 
+		GameBackingOverlay = GameObject.Find("GameBackingLayer");
+		if (GameBackingOverlay != null)
+		{
+			GameBackingOverlay.SetActive(true);
+		}
 
 		_playfieldState = ePlayfieldState.waitingToStart;
 
@@ -193,10 +199,10 @@ public class PlayfieldManager : MonoBehaviour
 
 	private void SetCircularLoadAmount (float amount) 
 	{
-		Image[] images = GamePlayOverlay.GetComponentsInChildren<Image>();
+		Image[] images = GameBackingOverlay.GetComponentsInChildren<Image>();
 		foreach (Image image in images)
 		{
-			if(image.name == "CircularLoadImage")
+			if(image.name == "BlitzMeter")
 			{
 				image.fillAmount = amount;
 			}

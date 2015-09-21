@@ -150,11 +150,30 @@ public class FormulaFactory : MonoBehaviour
 		{
 			case eEquationType.compexity1://a+b=c, a*b=c, etc...
 			{
-				int inputA, inputB, resultC;
-				inputA = UnityEngine.Random.Range(minRange, maxRange);
-				inputB = UnityEngine.Random.Range(minRange, maxRange);
+				int inputA = 0, inputB = 0, resultC = 0;
+				bool validData = false;
 
-				resultC = 0;
+				while(validData == false)
+				{
+					inputA = UnityEngine.Random.Range(minRange, maxRange);
+					inputB = UnityEngine.Random.Range(minRange, maxRange);
+
+					validData = true;
+
+					if(operandBias == eOperandBias.forceMult || operandBias == eOperandBias.forceDivide)
+					{
+						//we don't want to many 1 * n equations
+						int chance = UnityEngine.Random.Range(0, 100);
+						if(chance < 75)//25% chance of 1*n or 1/n getting through
+						{
+							if(inputA == 1 || inputB == 1) 
+							{
+								validData = false;
+							}
+						}
+					}
+				}
+
 
 				if(operandBias == eOperandBias.forcePlus)
 				{

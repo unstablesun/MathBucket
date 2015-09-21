@@ -123,6 +123,8 @@ public class BallManager : MonoBehaviour
 									GameCommon.getGameplayManagerClass().PuzzleCompete(_score);
 
 									GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.puzzleDone);
+
+									GameCommon.getParticleDepotClass().PlayBonus();
 								}
 								else
 								{
