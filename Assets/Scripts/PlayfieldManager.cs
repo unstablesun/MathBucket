@@ -121,7 +121,7 @@ public class PlayfieldManager : MonoBehaviour
 
 		SetOverlayFinalScore(score);
 		
-		GameCommon.getFuelHandlerClass ().SetMatchScore (score);
+		//GameCommon.getFuelHandlerClass ().SetMatchScore (score);
 	}
 
 	//only for last puzzle - wait and trigger next puzzle

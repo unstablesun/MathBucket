@@ -48,7 +48,7 @@ public class MainMenuHandler : MonoBehaviour
 	{
 
 		_gameType = eGameType.fuelEasy;
-		GameCommon.getFuelHandlerClass().Launch ();
+		//GameCommon.getFuelHandlerClass().Launch ();
 
 	}
 

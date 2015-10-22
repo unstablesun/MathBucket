@@ -19,7 +19,7 @@ public class GamePlaySceneHandler : MonoBehaviour
 	{
 		MainMenuHandler.sComingFromGame = true;
 
-		GameCommon.getFuelHandlerClass ().SetMatchScore (1);
+		//GameCommon.getFuelHandlerClass ().SetMatchScore (1);
 
 		Application.LoadLevel("Title");
 	}
@@ -27,7 +27,7 @@ public class GamePlaySceneHandler : MonoBehaviour
 	{
 		MainMenuHandler.sComingFromGame = true;
 
-		GameCommon.getFuelHandlerClass ().SetMatchScore (0);
+		//GameCommon.getFuelHandlerClass ().SetMatchScore (0);
 
 		Application.LoadLevel("Title");
 	}
