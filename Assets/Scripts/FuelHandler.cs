@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using PropellerSDKSimpleJSON;
 using System;
 
 public class FuelHandler : MonoBehaviour 
 {
+
 	private bool m_initialized;
 	private FuelListener m_listener;
 
@@ -78,7 +78,7 @@ public class FuelHandler : MonoBehaviour
 	public void LaunchPropeller ()
 	{
 		// Launches the Propeller SDK online experience.
-		PropellerSDK.Launch (m_listener);
+		//PropellerSDK.Launch (m_listener);
 	}
 
 
@@ -98,22 +98,22 @@ public class FuelHandler : MonoBehaviour
 		// is provided then the raw score will be used.
 		matchResult.Add ("visualScore", score.ToString ());
 		
-		PropellerSDK.SubmitMatchResult (matchResult);
+		//PropellerSDK.SubmitMatchResult (matchResult);
 
 		// Re-launch the Propeller SDK online experience
 		// to see who won or to play another match
-		PropellerSDK.Launch (m_listener);
+		//PropellerSDK.Launch (m_listener);
 
 	}
 
 
 	public void Launch ()
 	{
-		LaunchPropeller ();
+		//LaunchPropeller ();
 	}
 
 
-
+	/*
 	public void LaunchMultiplayerGame(Dictionary<string, string> matchResult)
 	{
 		m_matchData.MatchType = MATCH_TYPE_MULTI;
@@ -171,76 +171,20 @@ public class FuelHandler : MonoBehaviour
 
 		//NotificationCenter.DefaultCenter.PostNotification (getMainMenuClass(), "LaunchGamePlay");
 	}
-
+	*/
 
 
 	public void SetMatchScore(int scoreValue)
 	{
-		Debug.Log ("SetMatchScore = " + scoreValue);
-		
-		m_matchData.MatchScore = scoreValue;
-
-		sendMatchResult (m_matchData.MatchScore);
 	}
 
 	private void sendMatchResult (long score)
 	{
-		Debug.Log ("sendMatchResult with score : " + score);
-		
-		long visualScore = score;
-		
-		Dictionary<string, object> matchResult = new Dictionary<string, object> ();
-		matchResult.Add ("tournamentID", m_matchData.TournamentID);
-		matchResult.Add ("matchID", m_matchData.MatchID);
-		matchResult.Add ("score", m_matchData.MatchScore);
-		string visualScoreStr = visualScore.ToString();
-		matchResult.Add ("visualScore", visualScoreStr);
-		
-		PropellerSDK.SubmitMatchResult (matchResult);
-	}
-
-
-	public void OnPropellerSDKChallengeCountUpdated (string count)
-	{
-		Debug.Log ("OnPropellerSDKChallengeCountUpdated = " + count);
-
-		int countValue = 0;
-		
-		if (!int.TryParse (count, out countValue)) 
-		{
-			return;
-		}
-
-		getMainMenuClass().RefreshChallengeCount (countValue);
-
 	}
 
 
 
-	public void OnPropellerSDKTournamentInfo (Dictionary<string, string> tournamentInfo)
-	{
-		if ((tournamentInfo == null) || (tournamentInfo.Count == 0)) {
-			// There is no tournament currently running or scheduled.
-			// Display a regular multiplayer button.
-			getMainMenuClass().RefreshTournament(0, " ", " ", " ");
 
-		} else {
-			// A tournament is currently running or is the
-			// information for the next scheduled tournament.
-			
-			// Extract the tournament data.
-			string name = tournamentInfo["name"];
-			//string campaignName = tournamentInfo["campaignName"];
-			//string sponsorName = tournamentInfo["sponsorName"];
-			string startDate = tournamentInfo["startDate"];
-			string endDate = tournamentInfo["endDate"];
-			//string logo = tournamentInfo["logo"];
-			
-			// Display a tournament multiplayer button.
-
-			getMainMenuClass().RefreshTournament(1, name, startDate, endDate);
-		}
-	}
 
 
 

@@ -19,13 +19,13 @@ public class MainMenuHandler : MonoBehaviour
 
 	void Start () 
 	{
-		PropellerSDK.SyncChallengeCounts ();
-		PropellerSDK.SyncTournamentInfo ();
+		//PropellerSDK.SyncChallengeCounts ();
+		//PropellerSDK.SyncTournamentInfo ();
 		
 		if (sComingFromGame == true && _gameType != eGameType.practice) 
 		{
 			
-			GameCommon.getFuelHandlerClass().LaunchPropeller();
+			//GameCommon.getFuelHandlerClass().LaunchPropeller();
 			sComingFromGame = false;
 		}
 
