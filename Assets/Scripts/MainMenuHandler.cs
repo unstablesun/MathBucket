@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using FUEL.SDK;
 
 public class MainMenuHandler : MonoBehaviour 
 {
@@ -48,7 +49,7 @@ public class MainMenuHandler : MonoBehaviour
 	{
 
 		_gameType = eGameType.fuelEasy;
-		//GameCommon.getFuelHandlerClass().Launch ();
+		FuelHandler.Instance.LaunchCompeteDashBoard ();
 
 	}
 
