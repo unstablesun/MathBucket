@@ -41,6 +41,7 @@ public class GameBackingLayer : MonoBehaviour
 	
 	void Update () 
 	{
+		/*
 		//Translate-----------------------------------------------------------
 		if(move.y_axis == true)
 		{
@@ -74,7 +75,7 @@ public class GameBackingLayer : MonoBehaviour
 			_elaspedTime = 0.0f;
 			
 		}
-
+		*/
 	
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using FUEL.SDK;
 
 public class PlayfieldManager : MonoBehaviour 
 {
@@ -122,6 +123,9 @@ public class PlayfieldManager : MonoBehaviour
 		SetOverlayFinalScore(score);
 		
 		//GameCommon.getFuelHandlerClass ().SetMatchScore (score);
+		//set early score reporting here!
+
+		FuelHandler.Instance.SendFinishedMatchDetails (score);
 	}
 
 	//only for last puzzle - wait and trigger next puzzle

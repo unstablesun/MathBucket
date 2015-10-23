@@ -144,4 +144,18 @@ public class GameCommon : MonoBehaviour
 		throw new Exception();
 	}
 
+	static public MainMenuHandler getMainMenuClass()
+	{
+		GameObject _mainmenu = GameObject.Find("MainMenuHandler");
+		if (_mainmenu != null) {
+			MainMenuHandler _mainmenutScript = _mainmenu.GetComponent<MainMenuHandler> ();
+			if(_mainmenutScript != null) {
+				return _mainmenutScript;
+			}
+			throw new Exception();
+		}
+		throw new Exception();
+	}
+
+
 }

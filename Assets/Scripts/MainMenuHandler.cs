@@ -22,14 +22,14 @@ public class MainMenuHandler : MonoBehaviour
 	{
 		//PropellerSDK.SyncChallengeCounts ();
 		//PropellerSDK.SyncTournamentInfo ();
+
+		FuelHandler.Instance.GetEvents ();
 		
 		if (sComingFromGame == true && _gameType != eGameType.practice) 
 		{
-			
-			//GameCommon.getFuelHandlerClass().LaunchPropeller();
+			FuelHandler.Instance.LaunchCompeteDashBoard ();
 			sComingFromGame = false;
 		}
-
 	}
 	
 	void Update () 
@@ -42,17 +42,19 @@ public class MainMenuHandler : MonoBehaviour
 	{
 		_gameType = eGameType.practice;
 		Application.LoadLevel("PlayField");
-
 	}
-
+	
 	public void LaunchEasy () 
 	{
-
 		_gameType = eGameType.fuelEasy;
 		FuelHandler.Instance.LaunchCompeteDashBoard ();
-
 	}
 
+	public void LoadGame () 
+	{
+		Application.LoadLevel("PlayField");
+	}
+	
 
 
 	public void RefreshChallengeCount(int challengeCount)

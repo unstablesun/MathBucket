@@ -179,6 +179,8 @@ namespace FUEL.SDK {
 			           "TheirAvatarURL = " + m_matchData.TheirAvatarURL + "\n" 
 			           );
 			UserProfileManager.Instance.startMultiplayer = true;
+
+			GameCommon.getMainMenuClass().LoadGame();
 		}
 		
 		#endregion
@@ -329,6 +331,7 @@ namespace FUEL.SDK {
 				Dictionary<string,object> eventDict = eventObject as Dictionary<string,object>;
 				EventData eventData = EventData.ParseFromDictionary( eventDict );
 				events.Add( eventData );
+
 				//GameSceneController.PopulateIgniteEventsUI( events );
 			}
 		}
@@ -356,6 +359,7 @@ namespace FUEL.SDK {
 		
 		public void OnIgniteMissionReceive(  Dictionary<string,object> missionDict  ) {
 			MissionData missionData = MissionData.ParseFromDictionary( missionDict );
+
 			//GameSceneController.PopulateIgniteMisssionUI( missionData );
 		}
 		
