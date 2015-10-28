@@ -1,4 +1,7 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using FUEL.Utils;
 
 namespace FUEL.SDK {
@@ -103,8 +106,23 @@ namespace FUEL.SDK {
 				}
 				eventData.Metadata = eventMetadata;
 			}
+
+			Debug.Log (	
+			           "Ignite Event Data" + "\n" +
+			           "Id = " + eventData.Id + "\n" +
+			           "StartTime = " + eventData.StartTime + "\n" +
+			           "EndTime = " + eventData.EndTime + "\n" +
+			           "Authorized = " + eventData.Authorized + "\n" +
+			           "EventId = " + eventData.EventId + "\n" +
+			           "State = " + eventData.State + "\n" +
+			           "Score = " + eventData.Score + "\n" +
+			           "Type = " + eventData.Type + "\n" +
+			           "Metadata = " + eventData.Metadata + "\n" 
+			           );
+
 			return eventData;
 		}
+
 	}
 	
 	public struct EventMetadata {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using System.Linq;
 
 namespace FUEL.SDK {
@@ -75,6 +76,17 @@ namespace FUEL.SDK {
 						leaderBoardRowData.Rank = Convert.ToInt32( leaderBoardRowsDict["rank"] );
 					}
 					leaderBoardData.LeaderBoardList.Add( leaderBoardRowData );
+
+					Debug.Log (	
+					           "Ignite Leader Board Row Data" + "\n" +
+					           "UserID = " + leaderBoardRowData.UserID + "\n" +
+					           "IsYou = " + leaderBoardRowData.IsYou + "\n" +
+					           "Nickname = " + leaderBoardRowData.Nickname + "\n" +
+					           "Avatar = " + leaderBoardRowData.Avatar + "\n" +
+					           "Score = " + leaderBoardRowData.Score + "\n" +
+					           "Rank = " + leaderBoardRowData.Rank + "\n"
+					           );
+
 				}
 			}
 			if( !listContainTheUser ) {

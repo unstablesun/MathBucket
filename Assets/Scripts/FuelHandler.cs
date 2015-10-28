@@ -332,6 +332,18 @@ namespace FUEL.SDK {
 				EventData eventData = EventData.ParseFromDictionary( eventDict );
 				events.Add( eventData );
 
+				//temp location
+				Debug.Log ("OnIgniteEventsReceive... Type = " + eventData.Type);	
+
+				if(eventData.Type == IgniteEventType.mission) {
+					Debug.Log ("CALLING: GetMission(eventData.Id);");	
+					GetMission(eventData.Id);
+				} else if(eventData.Type == IgniteEventType.leaderBoard) {
+					Debug.Log ("CALLING: GetLeaderBoard(eventData.Id);");	
+					GetLeaderBoard(eventData.Id);
+				}
+
+
 				//GameSceneController.PopulateIgniteEventsUI( events );
 			}
 		}
@@ -345,6 +357,7 @@ namespace FUEL.SDK {
 		}
 		
 		public void OnIgniteLeaderBoardReceive( Dictionary<string,object> leaderBoardDict ) {
+			Debug.Log ("OnIgniteLeaderBoardReceive... Object = " + leaderBoardDict);	
 			LeaderBoardData leaderBoardData = LeaderBoardData.ParseFromDictionary( leaderBoardDict );
 			//GameSceneController.PopulateIgniteLeaderBoardUI( leaderBoardData );
 		}
@@ -358,6 +371,7 @@ namespace FUEL.SDK {
 		}
 		
 		public void OnIgniteMissionReceive(  Dictionary<string,object> missionDict  ) {
+			Debug.Log ("OnIgniteMissionReceive... Object = " + missionDict);	
 			MissionData missionData = MissionData.ParseFromDictionary( missionDict );
 
 			//GameSceneController.PopulateIgniteMisssionUI( missionData );

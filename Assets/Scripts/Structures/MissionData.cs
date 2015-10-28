@@ -46,6 +46,15 @@ namespace FUEL.SDK {
 					missionData.Rules.Add( ruleData.Id, ruleData);
 				}
 			}
+
+			Debug.Log (	
+			           "Ignite Mission Data" + "\n" +
+			           "Id = " + missionData.Id + "\n" +
+			           "Progress = " + missionData.Progress + "\n" +
+			           "Metadata = " + missionData.Metadata + "\n" +
+			           "Rules = " + missionData.Rules + "\n"
+			           );
+
 			return missionData;
 		}
 	}
@@ -77,12 +86,29 @@ namespace FUEL.SDK {
 				}
 				virtualGood.Init();
 				missionMetadata.VirtualGood = virtualGood;
+
+				Debug.Log (	
+				           "Ignite Mission Virtual Good" + "\n" +
+				           "Id = " + virtualGood.Id + "\n" +
+				           "Description = " + virtualGood.Description + "\n" +
+				           "GoodId = " + virtualGood.GoodId + "\n" +
+				           "IconUrl = " + virtualGood.IconUrl + "\n" 
+				           );
+
 			}
 			if( missionMetadataDict.ContainsKey( "gamedata" ) ) {
 				missionMetadata.GameData = Convert.ToString( missionMetadataDict["gamedata"] );
 			}
+
+			Debug.Log (	
+			           "Ignite Mission MetaData" + "\n" +
+			           "Name = " + missionMetadata.Name + "\n" +
+			           "GameData = " + missionMetadata.GameData + "\n"
+			           );
+
 			return missionMetadata;
 		}
+
 
 	}
 
@@ -151,6 +177,17 @@ namespace FUEL.SDK {
 				System.Collections.Generic.Dictionary<string,object> metadataDict = FuelSDKCommon.Deserialize( metadataString ) as System.Collections.Generic.Dictionary<string,object>;
 				ruleData.Metadata = RuleMetadata.ParseFromDictionary( metadataDict );
 			}
+
+			Debug.Log (	
+			           "Ignite Mission Rule Data" + "\n" +
+			           "Id = " + ruleData.Id + "\n" +
+			           "Score = " + ruleData.Score + "\n" +
+			           "Target = " + ruleData.Target + "\n" +
+			           "Variable = " + ruleData.Variable + "\n" +
+			           "Kind = " + ruleData.Kind + "\n" +
+			           "Achieved = " + ruleData.Achieved + "\n" 
+			           );
+
 			return ruleData;
 		}
 	}
