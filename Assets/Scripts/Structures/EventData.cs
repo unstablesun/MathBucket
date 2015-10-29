@@ -67,7 +67,7 @@ namespace FUEL.SDK {
 			EventData eventData = new EventData();
 			eventData.OldScore = -1;
 			if( eventDict.ContainsKey( "id" ) ) {
-				eventData.Id = Convert.ToString( eventDict["id"] );
+				eventData.Id = Convert.ToString( eventDict["id"] );//Activity ID
 			}
 			if( eventDict.ContainsKey( "startTime" ) ) {
 				long t = Convert.ToInt64 (eventDict["startTime"]);
