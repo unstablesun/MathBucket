@@ -23,6 +23,8 @@ public class MainMenuHandler : MonoBehaviour
 		//PropellerSDK.SyncChallengeCounts ();
 		//PropellerSDK.SyncTournamentInfo ();
 
+		Application.LoadLevelAdditive("missionPopup");
+
 		FuelHandler.Instance.GetEvents ();
 		
 		if (sComingFromGame == true && _gameType != eGameType.practice) 
