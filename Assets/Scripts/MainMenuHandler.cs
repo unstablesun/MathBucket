@@ -23,12 +23,11 @@ public class MainMenuHandler : MonoBehaviour
 		//PropellerSDK.SyncChallengeCounts ();
 		//PropellerSDK.SyncTournamentInfo ();
 
-		Application.LoadLevelAdditive("missionPopup");
-
 		FuelHandler.Instance.GetEvents ();
 		
 		if (sComingFromGame == true && _gameType != eGameType.practice) 
 		{
+			FuelHandler.Instance.SendProgress (2, 1);
 			FuelHandler.Instance.LaunchCompeteDashBoard ();
 			sComingFromGame = false;
 		}
@@ -56,6 +55,12 @@ public class MainMenuHandler : MonoBehaviour
 	{
 		Application.LoadLevel("PlayField");
 	}
+
+	public void LaunchMissionPopup () 
+	{
+		Application.LoadLevelAdditive("missionPopup");
+	}
+
 	
 
 

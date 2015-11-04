@@ -291,16 +291,16 @@ namespace FUEL.SDK {
 		
 		#region ===================================== Ignite Send Progress ====================================
 		
-		public void SendProgress (int score,int coins) {
+		public void SendProgress (int score, int count) {
 			
 			Dictionary<string,int> scoreDict = new Dictionary<string, int>();
-			scoreDict.Add("value",score);
-			Dictionary<string,int> coinsDict = new Dictionary<string, int>();
-			coinsDict.Add("value",coins);
+			scoreDict.Add("value", score);
+			Dictionary<string,int> countDict = new Dictionary<string, int>();
+			countDict.Add("value", count);
 			
 			Dictionary<string,object> progressDict = new Dictionary<string, object>();
 			progressDict.Add("score", scoreDict);
-			progressDict.Add("coins", coinsDict);
+			progressDict.Add("count", countDict);
 			
 			List<object> tags = null;//new List<object>();
 			//tags.Add("allowedMissions");
@@ -343,8 +343,7 @@ namespace FUEL.SDK {
 					GetLeaderBoard(eventData.Id);
 				}
 
-
-				//GameSceneController.PopulateIgniteEventsUI( events );
+				MissionPopupController.PopulateIgniteEvent( eventData );
 			}
 		}
 		
@@ -374,7 +373,7 @@ namespace FUEL.SDK {
 			Debug.Log ("OnIgniteMissionReceive... Object = " + missionDict);	
 			MissionData missionData = MissionData.ParseFromDictionary( missionDict );
 
-			//GameSceneController.PopulateIgniteMisssionUI( missionData );
+			MissionPopupController.PopulateIgniteMisssion( missionData );
 		}
 		
 		#endregion
