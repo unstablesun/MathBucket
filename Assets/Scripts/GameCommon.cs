@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using FUEL.SDK;
 
 public class GameCommon : MonoBehaviour 
 {
@@ -73,19 +72,6 @@ public class GameCommon : MonoBehaviour
 			BallManager _ballManagerScript = _ballManagerHandler.GetComponent<BallManager> ();
 			if(_ballManagerScript != null) {
 				return _ballManagerScript;
-			}
-			throw new Exception();
-		}
-		throw new Exception();
-	}
-	
-	static public FuelHandler getFuelHandlerClass()
-	{
-		GameObject _dynamicsHandler = GameObject.Find("FuelHandler");
-		if (_dynamicsHandler != null) {
-			FuelHandler _fuelHandlerScript = _dynamicsHandler.GetComponent<FuelHandler> ();
-			if(_fuelHandlerScript != null) {
-				return _fuelHandlerScript;
 			}
 			throw new Exception();
 		}

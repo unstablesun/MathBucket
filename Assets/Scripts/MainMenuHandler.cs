@@ -2,7 +2,6 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
-using FUEL.SDK;
 
 public class MainMenuHandler : MonoBehaviour 
 {
@@ -23,6 +22,7 @@ public class MainMenuHandler : MonoBehaviour
 		//PropellerSDK.SyncChallengeCounts ();
 		//PropellerSDK.SyncTournamentInfo ();
 
+		/*
 		FuelHandler.Instance.GetEvents ();
 		
 		if (sComingFromGame == true && _gameType != eGameType.practice) 
@@ -31,6 +31,7 @@ public class MainMenuHandler : MonoBehaviour
 			FuelHandler.Instance.LaunchCompeteDashBoard ();
 			sComingFromGame = false;
 		}
+		*/
 	}
 	
 	void Update () 
@@ -48,7 +49,7 @@ public class MainMenuHandler : MonoBehaviour
 	public void LaunchEasy () 
 	{
 		_gameType = eGameType.fuelEasy;
-		FuelHandler.Instance.LaunchCompeteDashBoard ();
+		//FuelHandler.Instance.LaunchCompeteDashBoard ();
 	}
 
 	public void LoadGame () 
