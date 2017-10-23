@@ -66,7 +66,7 @@ public class GameplayManager : MonoBehaviour
 		int prefProb = 80;
 		int sameProb = 90;
 
-		int numEquaThres = 6;//option to reset min max when threshold crossed
+		int numEquaThres = 12;//option to reset min max when threshold crossed
 		int numEqua = 1;
 		int numEquaCap = 2;
 
@@ -205,7 +205,7 @@ public class GameplayManager : MonoBehaviour
 
 
 	
-	
+	[SerializeField]
 	public struct PuzzleCurveData 
 	{
 		public int minMaxThreshold { get; set; }
@@ -223,6 +223,9 @@ public class GameplayManager : MonoBehaviour
 		public int resetRangeAfterEquationInc { get; set; }
 
 	}
+
+	public PuzzleLevelData[] mPuzzleLevelData = null;
+
 
 	private PuzzleCurveData mPuzzleCurveData;
 
@@ -244,6 +247,73 @@ public class GameplayManager : MonoBehaviour
 		mPuzzleCurveData.numEquationsCap = numEquationsCap;
 	}
 
+	private void AdvancePuzzleCurve () 
+	{
+		FormulaFactory.eOperandBias operand = FormulaFactory.eOperandBias.forcePlus;
+		FormulaFactory.eOperandBias firstOperand = FormulaFactory.eOperandBias.forcePlus;
+
+		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
+
+		Debug.Log ("AdvancePuzzleCurve : _gameLevel = " + _gameLevel);
+		int index = _gameLevel - 1;
+		int minRange = mPuzzleLevelData [index].MinRange;
+		int maxRange = mPuzzleLevelData [index].MaxRange;
+
+		FormulaFactory.eOperandBias operatorPref = mPuzzleLevelData [index].OperatorPreference;
+		int operatorPreferenceProb = mPuzzleLevelData [index].OperatorPreferenceProb;
+		int sameOperatorProb = mPuzzleLevelData [index].SameOperatorProb;
+
+		int numEquations = mPuzzleLevelData[index].NumEquations;
+
+		for (int i = 0; i < numEquations; i++) 
+		{
+			bool operatorSet = false;
+			if(i > 0)//2+ time through loop
+			{
+				int chanceSame = UnityEngine.Random.Range(0, 100);
+				if(chanceSame < sameOperatorProb)//change of getting the same operator for the second equation
+				{
+					operand = firstOperand;
+					operatorSet = true;
+				}
+			}
+
+			if(operatorSet == false)
+			{
+				if(operatorPref == FormulaFactory.eOperandBias.any)
+				{
+					operand = (FormulaFactory.eOperandBias)UnityEngine.Random.Range(1, 5);//1-4
+				}
+				else
+				{
+					int chancePref = UnityEngine.Random.Range(0, 100);
+
+					if(chancePref < operatorPreferenceProb)
+					{
+						operand = operatorPref;
+					}
+					else
+					{
+						operand = (FormulaFactory.eOperandBias)UnityEngine.Random.Range(1, 5);//1-4
+					}
+				}
+			}
+
+			if(i == 0)
+			{
+				operand = operatorPref;
+				firstOperand = operand;
+			}
+
+			_formulaFactory.AddEquation(0, minRange, maxRange, operand );
+		}
+
+		_elaspedPuzzleTime = 0.0f;
+		_puzzleDurationTime = _singleEquationTime * (float)numEquations;
+
+	}
+
+/*
 	private void AdvancePuzzleCurve () 
 	{
 		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
@@ -308,7 +378,12 @@ public class GameplayManager : MonoBehaviour
 
 			//add random select bucket
 			
-			
+
+			//  param 1  = complexity set to 0 only 1 level of complexity so far
+			//  param 2  = min digit used in calc, this should always be 1
+			//  param 3  = max digit used, example 5 would mean use digits 1-5
+			//  param 4  = operand + - * /
+
 			_formulaFactory.AddEquation(0, minRange, maxRange, operand );
 
 		}
@@ -341,5 +416,6 @@ public class GameplayManager : MonoBehaviour
 		}
 
 	}
+*/
 
 }

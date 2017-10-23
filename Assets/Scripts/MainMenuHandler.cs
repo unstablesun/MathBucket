@@ -50,6 +50,8 @@ public class MainMenuHandler : MonoBehaviour
 	{
 		_gameType = eGameType.fuelEasy;
 		//FuelHandler.Instance.LaunchCompeteDashBoard ();
+
+		LoadGame ();
 	}
 
 	public void LoadGame () 

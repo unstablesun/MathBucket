@@ -203,6 +203,14 @@ public class FormulaFactory : MonoBehaviour
 					Debug.Log (resultC + " = " + inputA + " / " + inputB);
 					AddFormulaToken ((int)MathBall.eOperator.Divide,  MathBall.eFunction.Operand);
 				}
+				else if(operandBias == eOperandBias.forcePower)
+				{
+					int resultX = (int)Math.Pow (inputA, inputB);
+					resultC = inputA;
+					inputA = resultX;
+					Debug.Log (resultC + " = " + inputA + " ^ " + inputB);
+					AddFormulaToken ((int)MathBall.eOperator.Power,  MathBall.eFunction.Operand);
+				}
 
 				convertDigitsToFormulaTokens(inputA);
 				convertDigitsToFormulaTokens(inputB);
