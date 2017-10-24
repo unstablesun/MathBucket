@@ -18,6 +18,7 @@ public class GameplayManager : MonoBehaviour
 	{
 		init,
 		selectFormulas,
+		replayFormulas,
 		puzzleReady,
 		puzzlePlaying,
 		puzzleResults,
@@ -31,6 +32,7 @@ public class GameplayManager : MonoBehaviour
 	private float _singleEquationTime = 15.0f;
 	private int _gameLevel = 1;
 	private int _gameScore = 0;
+	private int _repeatPuzzle = 0;
 
 	void Start () 
 	{
@@ -123,9 +125,13 @@ public class GameplayManager : MonoBehaviour
 		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
 		_formulaFactory.ResetFormulaTokenList();
 
-		_gameState = eGameState.selectFormulas;
 
-		_gameLevel++;
+		if (--_repeatPuzzle < 0) {
+			_gameLevel++;
+			_gameState = eGameState.selectFormulas;
+		} else {
+			_gameState = eGameState.replayFormulas;
+		}
 		
 	}
 
@@ -148,7 +154,12 @@ public class GameplayManager : MonoBehaviour
 			break;
 
 		case eGameState.selectFormulas:
-			AdvancePuzzleCurve();
+			AdvancePuzzleCurve(true);
+			_gameState = eGameState.puzzleReady;
+			break;
+
+		case eGameState.replayFormulas:
+			AdvancePuzzleCurve(false);
 			_gameState = eGameState.puzzleReady;
 			break;
 
@@ -247,7 +258,7 @@ public class GameplayManager : MonoBehaviour
 		mPuzzleCurveData.numEquationsCap = numEquationsCap;
 	}
 
-	private void AdvancePuzzleCurve () 
+	private void AdvancePuzzleCurve (bool setRepeats) 
 	{
 		FormulaFactory.eOperandBias operand = FormulaFactory.eOperandBias.forcePlus;
 		FormulaFactory.eOperandBias firstOperand = FormulaFactory.eOperandBias.forcePlus;
@@ -264,6 +275,10 @@ public class GameplayManager : MonoBehaviour
 		int sameOperatorProb = mPuzzleLevelData [index].SameOperatorProb;
 
 		int numEquations = mPuzzleLevelData[index].NumEquations;
+
+		if (setRepeats == true) {
+			_repeatPuzzle = mPuzzleLevelData [index].Repeats;
+		}
 
 		for (int i = 0; i < numEquations; i++) 
 		{
@@ -313,109 +328,6 @@ public class GameplayManager : MonoBehaviour
 
 	}
 
-/*
-	private void AdvancePuzzleCurve () 
-	{
-		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
 
-		int minMaxThreshold = mPuzzleCurveData.minMaxThreshold;
-		int minRange = mPuzzleCurveData.minRange;
-		int maxRange = mPuzzleCurveData.maxRange;
-
-		FormulaFactory.eOperandBias operatorPref = (FormulaFactory.eOperandBias)mPuzzleCurveData.operatorPreference;
-		int operatorPreferenceProb = mPuzzleCurveData.operatorPreferenceProb;
-		int sameOperatorProb = mPuzzleCurveData.sameOperatorProb;
-
-		FormulaFactory.eOperandBias operand = FormulaFactory.eOperandBias.forcePlus;
-		FormulaFactory.eOperandBias firstOperand = FormulaFactory.eOperandBias.forcePlus;
-
-		int numEquationThreshold = mPuzzleCurveData.numEquationThreshold;
-		int numEquations = mPuzzleCurveData.numEquations;
-		int numEquationsCap = mPuzzleCurveData.numEquationsCap;
-
-		for (int i = 0; i < numEquations; i++) 
-		{
-
-
-			bool operatorSet = false;
-			if(i > 0)
-			{
-				int chanceSame = UnityEngine.Random.Range(0, 100);
-				if(chanceSame < sameOperatorProb)
-				{
-					operand = firstOperand;
-					operatorSet = true;
-				}
-			}
-
-			if(operatorSet == false)
-			{
-				if(operatorPref == FormulaFactory.eOperandBias.any)
-				{
-					operand = (FormulaFactory.eOperandBias)UnityEngine.Random.Range(1, 5);//1-4
-				}
-				else
-				{
-					int chancePref = UnityEngine.Random.Range(0, 100);
-
-					if(chancePref < operatorPreferenceProb)
-					{
-						operand = operatorPref;
-					}
-					else
-					{
-						operand = (FormulaFactory.eOperandBias)UnityEngine.Random.Range(1, 5);//1-4
-					}
-				}
-			}
-
-			if(i == 0)
-			{
-				firstOperand = operand;
-			}
-			
-
-
-			//add random select bucket
-			
-
-			//  param 1  = complexity set to 0 only 1 level of complexity so far
-			//  param 2  = min digit used in calc, this should always be 1
-			//  param 3  = max digit used, example 5 would mean use digits 1-5
-			//  param 4  = operand + - * /
-
-			_formulaFactory.AddEquation(0, minRange, maxRange, operand );
-
-		}
-
-		_elaspedPuzzleTime = 0.0f;
-		_puzzleDurationTime = _singleEquationTime * (float)numEquations;
-
-
-		//update thresholds
-		if (_gameLevel % minMaxThreshold == 0) {
-
-			//crossed threshold
-			//advance some curve data
-
-			maxRange++;
-			mPuzzleCurveData.maxRange = maxRange;
-
-		}
-
-		if (_gameLevel % numEquationThreshold == 0) {
-			
-			//crossed threshold
-			//advance some curve data
-
-			if(numEquations < numEquationsCap)
-			{
-				numEquations++;
-				mPuzzleCurveData.numEquations = numEquations;
-			}
-		}
-
-	}
-*/
 
 }

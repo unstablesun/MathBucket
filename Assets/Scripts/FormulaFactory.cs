@@ -127,15 +127,10 @@ public class FormulaFactory : MonoBehaviour
 		forceModulus,
 		plusOrMinus,
 		multOrDivide,
+		plusAndMinus,
+		multAndDivide,
 	};
 
-	//deprecated
-	//public int InitEquationSet()
-	//{
-	//	keyIndex = 0;
-	//	AddEquation(1, 1);
-	//	return keyIndex;
-	//}
 
 	
 	public void AddEquation(int level, int minRange, int maxRange, eOperandBias operandBias)

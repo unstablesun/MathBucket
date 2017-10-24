@@ -26,6 +26,8 @@ public class PuzzleLevelData
 	[SerializeField]
 	private int numEquations;
 
+	[SerializeField]
+	private int repeats;
 
 
 	public int Difficulty
@@ -68,6 +70,12 @@ public class PuzzleLevelData
 	{
 		get { return numEquations; }
 		set { numEquations = value; }
+	}
+
+	public int Repeats
+	{
+		get { return repeats; }
+		set { repeats = value; }
 	}
 
 }
