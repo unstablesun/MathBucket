@@ -29,6 +29,9 @@ public class PuzzleLevelData
 	[SerializeField]
 	private int repeats;
 
+	[SerializeField]
+	private FormulaFactory.eOperandBias operatorSecondary; //do we want all plus
+
 
 	public int Difficulty
 	{
@@ -77,5 +80,12 @@ public class PuzzleLevelData
 		get { return repeats; }
 		set { repeats = value; }
 	}
+
+	public FormulaFactory.eOperandBias OperatorSecondary
+	{
+		get { return operatorSecondary; }
+		set { operatorSecondary = value; }
+	}
+
 
 }

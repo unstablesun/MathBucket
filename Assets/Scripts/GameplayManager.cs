@@ -270,11 +270,13 @@ public class GameplayManager : MonoBehaviour
 		int minRange = mPuzzleLevelData [index].MinRange;
 		int maxRange = mPuzzleLevelData [index].MaxRange;
 
-		FormulaFactory.eOperandBias operatorPref = mPuzzleLevelData [index].OperatorPreference;
+		FormulaFactory.eOperandBias operatorPrimary = mPuzzleLevelData [index].OperatorPreference;
 		int operatorPreferenceProb = mPuzzleLevelData [index].OperatorPreferenceProb;
 		int sameOperatorProb = mPuzzleLevelData [index].SameOperatorProb;
 
 		int numEquations = mPuzzleLevelData[index].NumEquations;
+
+		FormulaFactory.eOperandBias operatorSecondary = mPuzzleLevelData [index].OperatorSecondary;
 
 		if (setRepeats == true) {
 			_repeatPuzzle = mPuzzleLevelData [index].Repeats;
@@ -286,16 +288,28 @@ public class GameplayManager : MonoBehaviour
 			if(i > 0)//2+ time through loop
 			{
 				int chanceSame = UnityEngine.Random.Range(0, 100);
-				if(chanceSame < sameOperatorProb)//change of getting the same operator for the second equation
-				{
+				if (chanceSame < sameOperatorProb) {//change of getting the same operator for the second equation
+					
 					operand = firstOperand;
 					operatorSet = true;
+
+				} else {
+					
+					if(operatorPrimary == FormulaFactory.eOperandBias.any)
+					{
+						operand = (FormulaFactory.eOperandBias)UnityEngine.Random.Range(1, 5);//1-4
+					}
+					else
+					{
+						operand = operatorSecondary;
+					}
+
 				}
 			}
 
 			if(operatorSet == false)
 			{
-				if(operatorPref == FormulaFactory.eOperandBias.any)
+				if(operatorPrimary == FormulaFactory.eOperandBias.any)
 				{
 					operand = (FormulaFactory.eOperandBias)UnityEngine.Random.Range(1, 5);//1-4
 				}
@@ -305,7 +319,7 @@ public class GameplayManager : MonoBehaviour
 
 					if(chancePref < operatorPreferenceProb)
 					{
-						operand = operatorPref;
+						operand = operatorPrimary;
 					}
 					else
 					{
@@ -316,7 +330,7 @@ public class GameplayManager : MonoBehaviour
 
 			if(i == 0)
 			{
-				operand = operatorPref;
+				operand = operatorPrimary;
 				firstOperand = operand;
 			}
 

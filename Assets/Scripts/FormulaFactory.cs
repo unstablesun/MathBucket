@@ -125,10 +125,6 @@ public class FormulaFactory : MonoBehaviour
 		forceDivide,
 		forcePower,
 		forceModulus,
-		plusOrMinus,
-		multOrDivide,
-		plusAndMinus,
-		multAndDivide,
 	};
 
 
