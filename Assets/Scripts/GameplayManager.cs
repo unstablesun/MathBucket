@@ -334,6 +334,12 @@ public class GameplayManager : MonoBehaviour
 				firstOperand = operand;
 			}
 
+			//final check
+			if(operand == FormulaFactory.eOperandBias.any) {
+				operand = (FormulaFactory.eOperandBias)UnityEngine.Random.Range(1, 5);//1-4
+			}
+
+			Debug.Log("##! AddEquation :  minRange = " + minRange + "  maxRange = " + maxRange + "  operand = " + operand.ToString());
 			_formulaFactory.AddEquation(0, minRange, maxRange, operand );
 		}
 
