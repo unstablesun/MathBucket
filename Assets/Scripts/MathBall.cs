@@ -193,7 +193,7 @@ public class MathBall : MonoBehaviour
 		GameObject _ballText = _getChildGameObject("proText");
 		_ballText.GetComponent<TextMeshPro>().text = t;
 	}
-	private void setBallTextColor(Color _c)
+	public void setBallTextColor(Color _c)
 	{
 		//GameObject _ballText = _getChildGameObject("text1");
 		//_ballText.GetComponent<Renderer>().material.color = _c;

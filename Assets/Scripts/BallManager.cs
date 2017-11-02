@@ -27,6 +27,22 @@ public class BallManager : MonoBehaviour
 	private int _score = 0;
 
 
+	public  Color ballColorBackDigit;
+	public  float ballScaleDigit = 0.3f;
+
+	public  Color ballColorBackOperand;
+	public  float ballScaleOperand = 0.25f;
+
+	public  Color ballColorBackEquals;
+	public  float ballScaleEquals = 0.2f;
+
+	public  Color ballColorHilite;	
+
+
+
+
+
+
 	public void SetState(eSystemState state)
 	{
 		_systemState = state;
@@ -34,11 +50,16 @@ public class BallManager : MonoBehaviour
 
 	void Start () 
 	{
+		//default colors & scales
+		//ballColorBackDigit = new Color(0.9f, 0.9f, 0.9f, 1f);
+		//ballColorBackOperand = new Color(0.5f, 0.5f, 0.5f, 1f);
+		//ballColorBackEquals = new Color(0.3f, 0.3f, 0.3f, 1f);
+		//ballColorHilite = new Color(0.9f, 0.9f, 0.9f, 1f);
+
 		//clear
 		BallObjects.Clear ();
 		BallAnimObjects.Clear ();
 
-		GameCommon.InitDefaults();
 		PreLoadBallPrefabs();
 		PreLoadBallAnimPrefabs();
 
@@ -224,24 +245,24 @@ public class BallManager : MonoBehaviour
 
 			if(_ballFunction == MathBall.eFunction.Digit)
 			{
-				setBallColor(mathBall, GameCommon.ballColorBackDigit);
-				setBallScale(mathBall, GameCommon.ballScaleDigit);
+				setBallColor(mathBall, ballColorBackDigit);
+				setBallScale(mathBall, ballScaleDigit);
 
-				setBallHiliteColor(mathBall, GameCommon.ballColorBackDigit);
+				setBallHiliteColor(mathBall, ballColorBackDigit);
 			}
 			else if(_ballFunction == MathBall.eFunction.Operand)
 			{
 				if(_ballValue == (int)MathBall.eOperator.Equals)
 				{
-					setBallColor(mathBall, GameCommon.ballColorBackEquals);
-					setBallScale(mathBall, GameCommon.ballScaleEquals);
-					setBallHiliteColor(mathBall, GameCommon.ballColorBackEquals);
+					setBallColor(mathBall, ballColorBackEquals);
+					setBallScale(mathBall, ballScaleEquals);
+					setBallHiliteColor(mathBall, ballColorBackEquals);
 				}
 				else
 				{
-					setBallColor(mathBall, GameCommon.ballColorBackOperand);
-					setBallScale(mathBall, GameCommon.ballScaleOperand);
-					setBallHiliteColor(mathBall, GameCommon.ballColorBackOperand);
+					setBallColor(mathBall, ballColorBackOperand);
+					setBallScale(mathBall, ballScaleOperand);
+					setBallHiliteColor(mathBall, ballColorBackOperand);
 				}
 			}
 

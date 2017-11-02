@@ -4,32 +4,6 @@ using System;
 
 public class GameCommon : MonoBehaviour 
 {
-	public static Color ballColorBackDigit;
-	public static float ballScaleDigit;
-
-	public static Color ballColorBackOperand;
-	public static float ballScaleOperand;
-
-	public static Color ballColorBackEquals;
-	public static float ballScaleEquals;
-
-	public static Color ballColorHilite;	
-
-	public static void InitDefaults()
-	{
-		//default colors & scales
-		ballColorBackDigit = new Color(0.9f, 0.9f, 0.9f, 1f);
-		ballScaleDigit = 0.3f;
-
-		ballColorBackOperand = new Color(0.5f, 0.5f, 0.5f, 1f);
-		ballScaleOperand = 0.25f;
-
-		ballColorBackEquals = new Color(0.3f, 0.3f, 0.3f, 1f);
-		ballScaleEquals = 0.2f;
-
-		ballColorHilite = new Color(0.9f, 0.9f, 0.9f, 1f);
-
-	}
 
 	static public CentralCalculator getCentralCalculatorClass()
 	{

@@ -23,6 +23,7 @@ public class PlayfieldManager : MonoBehaviour
 	private GameObject GamePlayOverlay = null;
 	private GameObject GameBackingOverlay = null;
 
+	public GameObject BlitzMeterDial = null;
 
 	private float _elaspedTime = 0.0f;
 	private float _puzzleResultsTime = 0.1f;
@@ -202,14 +203,16 @@ public class PlayfieldManager : MonoBehaviour
 
 	private void SetCircularLoadAmount (float amount) 
 	{
-		Image[] images = GameBackingOverlay.GetComponentsInChildren<Image>();
-		foreach (Image image in images)
-		{
-			if(image.name == "BlitzMeter")
+		if(BlitzMeterDial != null) {
+			Image[] images = BlitzMeterDial.GetComponentsInChildren<Image>();
+			foreach (Image image in images)
 			{
-				image.fillAmount = amount;
-			}
+				if(image.name == "BlitzMeter")
+				{
+					image.fillAmount = amount;
+				}
 			
+			}
 		}
 	}
 

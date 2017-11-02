@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class MathBallAnim : MonoBehaviour 
 {
@@ -131,7 +132,7 @@ public class MathBallAnim : MonoBehaviour
 		GameObject image = _getChildGameObject("image1");
 		image.GetComponent<Renderer>().material.color = getRandomPrimaryColor();
 
-		GameObject _ballText = _getChildGameObject("text1");
+		GameObject _ballText = _getChildGameObject("proText");
 		_ballText.GetComponent<Renderer>().material.color = getRandomPrimaryColor();
 
 		GameObject imageHi = _getChildGameObject("hilite1");
@@ -150,15 +151,21 @@ public class MathBallAnim : MonoBehaviour
 
 	public void setBallText(string t)
 	{
-		GameObject _ballText = _getChildGameObject("text1");
-		_ballText.GetComponent<TextMesh>().text = t;
+		//GameObject _ballText = _getChildGameObject("text1");
+		//_ballText.GetComponent<TextMesh>().text = t;
+
+		GameObject _ballText = _getChildGameObject("proText");
+		_ballText.GetComponent<TextMeshPro>().text = t;
 	}
 	public void setBallTextColor(Color _c)
 	{
-		GameObject _ballText = _getChildGameObject("text1");
+		//GameObject _ballText = _getChildGameObject("text1");
+		//_ballText.GetComponent<Renderer>().material.color = _c;
+
+		GameObject _ballText = _getChildGameObject("proText");
 		_ballText.GetComponent<Renderer>().material.color = _c;
 	}
-	
+
 	public void setBallColor(Color _c)
 	{
 		GameObject image = _getChildGameObject("image1");
@@ -178,7 +185,7 @@ public class MathBallAnim : MonoBehaviour
 	public void SetBallAlpha (float _a) 
 	{
 		GameObject image = _getChildGameObject("image1");
-		GameObject text = _getChildGameObject("text1");
+		GameObject text = _getChildGameObject("proText");
 		GameObject hilite = _getChildGameObject("hilite1");
 	}		
 
