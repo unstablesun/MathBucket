@@ -26,6 +26,16 @@ public class CentralCalculator : MonoBehaviour
 	private int errorResult;
 	private int keyIndex;
 
+
+	public static CentralCalculator Instance;
+
+	void Awake () 
+	{
+		Instance = this;
+
+	}
+
+
 	void Start ()
 	{
 		keyIndex = 0;
@@ -142,23 +152,23 @@ public class CentralCalculator : MonoBehaviour
 						break;
 					case MathBall.eOperator.Minus:
 						value -= equation [idx];
-						score += 5;
+						score += 6;
 						break;
 					case MathBall.eOperator.Multiply:
 						value *= equation [idx];
-						score += 6;
+						score += 8;
 						break;
 					case MathBall.eOperator.Divide:
 						value /= equation [idx];
-						score += 7;
+						score += 10;
 						break;
 					case MathBall.eOperator.Power:
 						value = (int)Math.Pow(value, equation [idx]);
-						score += 8;
+						score += 12;
 						break;
 					case MathBall.eOperator.Modulus:
 						value %= equation [idx];
-						score += 9;
+						score += 14;
 						break;
 				}
 			} 

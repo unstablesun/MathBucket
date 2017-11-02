@@ -32,6 +32,9 @@ public class PuzzleLevelData
 	[SerializeField]
 	private FormulaFactory.eOperandBias operatorSecondary; //do we want all plus
 
+	[SerializeField]
+	private GameplayManager.eBlitzMeterLevel blitzMeterLevel;
+
 
 	public int Difficulty
 	{
@@ -87,5 +90,10 @@ public class PuzzleLevelData
 		set { operatorSecondary = value; }
 	}
 
+	public GameplayManager.eBlitzMeterLevel BlitzMeterLevel
+	{
+		get { return blitzMeterLevel; }
+		set { blitzMeterLevel = value; }
+	}
 
 }

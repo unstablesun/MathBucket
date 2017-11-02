@@ -138,6 +138,16 @@ public class MathBall : MonoBehaviour
 	
 	}
 
+	void OnCollisionEnter2D(Collision2D col)
+	{
+		//Debug.LogError ("col : col.gameObject.name = " + col.gameObject.name);
+
+		//play sfx
+
+		//GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.collide1);
+		AudioDepot.Instance.PlaySfx(AudioDepot.eSfxID.collide1);
+
+	}
 
 
 	public bool setBallSelected() 

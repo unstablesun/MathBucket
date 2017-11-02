@@ -5,6 +5,7 @@ using System;
 public class GameCommon : MonoBehaviour 
 {
 
+	/*
 	static public CentralCalculator getCentralCalculatorClass()
 	{
 		GameObject _centralCalculatorObject = GameObject.Find("CentralCalculator");
@@ -52,6 +53,7 @@ public class GameCommon : MonoBehaviour
 		throw new Exception();
 	}
 
+	
 	static public PlayfieldManager getPlayfieldManagerClass()
 	{
 		GameObject _playfieldManager = GameObject.Find("PlayfieldManager");
@@ -91,6 +93,7 @@ public class GameCommon : MonoBehaviour
 		throw new Exception();
 	}
 
+	
 	static public AudioDepot getAudioDepotClass()
 	{
 		GameObject _audioDepot = GameObject.Find("AudioDepot");
@@ -116,6 +119,7 @@ public class GameCommon : MonoBehaviour
 		}
 		throw new Exception();
 	}
+		*/
 
 
 }

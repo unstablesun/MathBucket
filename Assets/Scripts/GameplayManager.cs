@@ -27,12 +27,40 @@ public class GameplayManager : MonoBehaviour
 	};
 	public eGameState _gameState = eGameState.init;
 
-	private float _elaspedPuzzleTime = 0.0f;
-	private float _puzzleDurationTime = 5.0f;
+
+	public enum eBlitzMeterLevel 
+	{
+		beginner,
+		novice,
+		easy,
+		medium,
+		hard,
+		expert,
+		master,
+		grandmaster,
+		god
+	};
+	public eBlitzMeterLevel _blitzMeterDifficulty = eBlitzMeterLevel.beginner;
+
+
+	private float _elaspedPuzzleTime = 0f;
+	private float _puzzleDurationTime = 0f;
 	private float _singleEquationTime = 15.0f;
+	private float _difficultyMult = 1f;
 	private int _gameLevel = 1;
 	private int _gameScore = 0;
 	private int _repeatPuzzle = 0;
+
+
+
+	public static GameplayManager Instance;
+
+	void Awake () 
+	{
+		Instance = this;
+
+	}
+
 
 	void Start () 
 	{
@@ -55,9 +83,9 @@ public class GameplayManager : MonoBehaviour
 
 		//select random paramters based on difficulty
 
-		int difficulty = 1;
+		//int difficulty = 1;
 
-		bool parameterStrict = true;
+		//bool parameterStrict = true;
 
 		//set default values
 		int minMaxThres = 4;
@@ -108,10 +136,20 @@ public class GameplayManager : MonoBehaviour
 		float rtime = _puzzleDurationTime - _elaspedPuzzleTime;
 		remainingTime = rtime * 1.0f / _puzzleDurationTime;
 
-		float bonusFactor = (2.0f - remainingTime) * (float)_gameLevel;
+		//float bonusFactor = (2.0f - remainingTime) * (float)_gameLevel;
 
-		float pScore = (float)score * bonusFactor;
+		float bonus = remainingTime / 0.125f;//8 piece pie meter
+		int ibonus = Mathf.RoundToInt (bonus);
+		if (ibonus < 1)
+			ibonus = 1;
+		
+		Debug.LogError ("ibonus = " + ibonus);
 
+		float fScore = (float)(score * ibonus);
+
+		fScore *= _difficultyMult;
+
+		int pScore = Mathf.RoundToInt (fScore);
 
 		_gameScore += (int)pScore;
 		_gameState = eGameState.puzzleResults;
@@ -122,9 +160,7 @@ public class GameplayManager : MonoBehaviour
 	{
 		Debug.Log ("StartNextPuzzle");
 
-		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
-		_formulaFactory.ResetFormulaTokenList();
-
+		FormulaFactory.Instance.ResetFormulaTokenList();
 
 		if (--_repeatPuzzle < 0) {
 			_gameLevel++;
@@ -164,7 +200,8 @@ public class GameplayManager : MonoBehaviour
 			break;
 
 		case eGameState.puzzleReady:
-			GameCommon.getBallManagerClass().SetState(BallManager.eSystemState.reboot);
+			//GameCommon.getBallManagerClass().SetState(BallManager.eSystemState.reboot);
+			BallManager.Instance.SetState(BallManager.eSystemState.reboot);
 			_gameState = eGameState.puzzlePlaying;
 			break;
 
@@ -176,7 +213,8 @@ public class GameplayManager : MonoBehaviour
 			if(_elaspedPuzzleTime > _puzzleDurationTime)
 			{
 				//puzzle playing time elasped
-				GameCommon.getBallManagerClass().SetState(BallManager.eSystemState.done);
+				//GameCommon.getBallManagerClass().SetState(BallManager.eSystemState.done);
+				BallManager.Instance.SetState(BallManager.eSystemState.done);
 				_gameState = eGameState.gameover;
 
 				_elaspedPuzzleTime = 0.0f;
@@ -190,7 +228,8 @@ public class GameplayManager : MonoBehaviour
 
 			Debug.Log ("eGameState.puzzleResults");
 
-			GameCommon.getPlayfieldManagerClass().SetPuzzleResults(_gameScore, _gameLevel+1);
+			//GameCommon.getPlayfieldManagerClass().SetPuzzleResults(_gameScore, _gameLevel+1);
+			PlayfieldManager.Instance.SetPuzzleResults(_gameScore, _gameLevel+1);
 
 			_gameState = eGameState.waitingForPlayfield;
 			break;
@@ -202,7 +241,8 @@ public class GameplayManager : MonoBehaviour
 		case eGameState.gameover:
 			//tell playfield no more puzzles coming - send final data
 
-			GameCommon.getPlayfieldManagerClass().SetMatchOverWithScore(_gameScore);
+			//GameCommon.getPlayfieldManagerClass().SetMatchOverWithScore(_gameScore);
+			PlayfieldManager.Instance.SetMatchOverWithScore(_gameScore);
 
 			_gameState = eGameState.waitingForPlayfield;
 			break;
@@ -236,7 +276,10 @@ public class GameplayManager : MonoBehaviour
 	}
 
 	public PuzzleLevelData[] mPuzzleLevelData = null;
+	public PuzzleLevelData[] mPuzzleLevelData2 = null;
+	public PuzzleLevelData[] mPuzzleLevelData3 = null;
 
+	private PuzzleLevelData[] mPuzzleLevelDataX = null;
 
 	private PuzzleCurveData mPuzzleCurveData;
 
@@ -262,8 +305,6 @@ public class GameplayManager : MonoBehaviour
 	{
 		FormulaFactory.eOperandBias operand = FormulaFactory.eOperandBias.forcePlus;
 		FormulaFactory.eOperandBias firstOperand = FormulaFactory.eOperandBias.forcePlus;
-
-		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
 
 		Debug.Log ("AdvancePuzzleCurve : _gameLevel = " + _gameLevel);
 		int index = _gameLevel - 1;
@@ -340,8 +381,17 @@ public class GameplayManager : MonoBehaviour
 			}
 
 			Debug.Log("##! AddEquation :  minRange = " + minRange + "  maxRange = " + maxRange + "  operand = " + operand.ToString());
-			_formulaFactory.AddEquation(0, minRange, maxRange, operand );
+			FormulaFactory.Instance.AddEquation(0, minRange, maxRange, operand );
 		}
+
+
+		eBlitzMeterLevel bLevel = mPuzzleLevelData [index].BlitzMeterLevel;
+
+		int[] starttimes = {30,26,22,18,12,10,8,6,4};
+		_singleEquationTime = starttimes[(int)bLevel];
+
+		float[] diffMults = {1f,1.2f,1.5f,1.8f,2f,2.5f,3f,3.5f,4f};
+		_difficultyMult = diffMults[(int)bLevel];
 
 		_elaspedPuzzleTime = 0.0f;
 		_puzzleDurationTime = _singleEquationTime * (float)numEquations;

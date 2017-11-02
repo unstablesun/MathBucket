@@ -29,7 +29,17 @@ public class FormulaFactory : MonoBehaviour
 	}
 	
 	public static List <FormulaToken> FormulaTokens = new List<FormulaToken>();
-	
+
+
+	public static FormulaFactory Instance;
+
+	void Awake () 
+	{
+		Instance = this;
+
+	}
+
+
 	void Start ()
 	{
 		Debug.Log ("FormulaFactory Start()");

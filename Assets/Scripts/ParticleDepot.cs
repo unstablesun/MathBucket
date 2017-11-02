@@ -17,6 +17,15 @@ public class ParticleDepot : MonoBehaviour
 
 	public GameObject _emitterBonus = null;
 
+	public static ParticleDepot Instance;
+
+	void Awake () 
+	{
+		Instance = this;
+
+	}
+
+
 	public void PlayAtPosition(int ballValue, Vector3 epos)
 	{
 

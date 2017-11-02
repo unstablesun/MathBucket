@@ -40,6 +40,14 @@ public class BallManager : MonoBehaviour
 
 
 
+	public static BallManager Instance;
+
+	void Awake () 
+	{
+		Instance = this;
+
+	}
+
 
 
 
@@ -109,13 +117,13 @@ public class BallManager : MonoBehaviour
 						if(_mathBallScript.setBallSelected() == false)
 						{
 							ClearSelectedBalls();
-							CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
-							_centralCalculator.ResetCalcTokenList();
+							//CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
+							CentralCalculator.Instance.ResetCalcTokenList();
 							
 							//is ball already selected?
 							//clear with zonk
-							GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.matchReset);
-
+							//GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.matchReset);
+							AudioDepot.Instance.PlaySfx(AudioDepot.eSfxID.matchReset);
 						}
 						else
 						{
@@ -123,41 +131,45 @@ public class BallManager : MonoBehaviour
 							MathBall.eFunction function = _mathBallScript._function;
 							int value = _mathBallScript.ball_value;
 							
-							CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
+							//CentralCalculator _centralCalculator = GameCommon.getCentralCalculatorClass();
 							
-							_centralCalculator.AddCalcToken(value, function);
+							CentralCalculator.Instance.AddCalcToken(value, function);
 							
-							if(_centralCalculator.AnalyseCalcTokenList() == true)
+							if(CentralCalculator.Instance.AnalyseCalcTokenList() == true)
 							{
 								//success
 								
 								//get score
-								_score += _centralCalculator.calcScore;
+								_score += CentralCalculator.Instance.calcScore;
 								
 								//clear selected balls
 								Debug.Log ("SUCCESSFULL CALCULATION!!");
 								RemoveSelectedBalls();
-								_centralCalculator.ResetCalcTokenList();
+								CentralCalculator.Instance.ResetCalcTokenList();
 
 								if(GetNumBallsInBucket() == 0)
 								{
-									GameCommon.getGameplayManagerClass().PuzzleCompete(_score);
+									//GameCommon.getGameplayManagerClass().PuzzleCompete(_score);
+									GameplayManager.Instance.PuzzleCompete(_score);
+									//GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.puzzleDone);
+									AudioDepot.Instance.PlaySfx(AudioDepot.eSfxID.puzzleDone);
 
-									GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.puzzleDone);
-
-									GameCommon.getParticleDepotClass().PlayBonus();
+									//GameCommon.getParticleDepotClass().PlayBonus();
+									ParticleDepot.Instance.PlayBonus ();
 								}
 								else
 								{
-									GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.matchMade);
+									//GameCommon.getAudioDepotClass().PlaySfx(AudioDepot.eSfxID.matchMade);
+									AudioDepot.Instance.PlaySfx(AudioDepot.eSfxID.matchMade);
+
 								}
 							}
-							else if(_centralCalculator.ErrorReport() > 0)
+							else if(CentralCalculator.Instance.ErrorReport() > 0)
 							{
 								//clear with zonk
 								Debug.Log ("ERROR ... ERROR ... ERROR!!");
 								ClearSelectedBalls();
-								_centralCalculator.ResetCalcTokenList();
+								CentralCalculator.Instance.ResetCalcTokenList();
 								
 							}
 						}
@@ -226,9 +238,11 @@ public class BallManager : MonoBehaviour
 
 
 
-		FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
+		//FormulaFactory _formulaFactory = GameCommon.getFormulaFactoryClass();
 
-		if(_formulaFactory.getNextBallValue() == true)
+		//FormulaFactory.Instance.getNextBallValue()
+
+		if(FormulaFactory.Instance.getNextBallValue() == true)
 		{
 
 			MathBall _mathBallScript = mathBall.GetComponent<MathBall> ();
@@ -237,8 +251,8 @@ public class BallManager : MonoBehaviour
 			//debug
 			GetNumBallsInBucket();
 
-			MathBall.eFunction _ballFunction = _formulaFactory.ball_function;
-			int _ballValue = _formulaFactory.ball_value;
+			MathBall.eFunction _ballFunction = FormulaFactory.Instance.ball_function;
+			int _ballValue = FormulaFactory.Instance.ball_value;
 
 			setBallFunctionAndValue(mathBall, _ballFunction, _ballValue);
 
@@ -329,7 +343,7 @@ public class BallManager : MonoBehaviour
 				int ball_value = _mathBallScript.ball_value;
 
 				//use ball_value to select correct particle
-				GameCommon.getParticleDepotClass().PlayAtPosition(ball_value, new Vector3(gObj.transform.position.x, gObj.transform.position.y, -5));
+				ParticleDepot.Instance.PlayAtPosition(ball_value, new Vector3(gObj.transform.position.x, gObj.transform.position.y, -5));
 				MathBallAnim _mathBallAnimScript = _mathBallAnim.GetComponent<MathBallAnim> ();
 				_mathBallAnimScript.setBallText(ball_value.ToString());
 				_mathBallAnimScript.startAnim();

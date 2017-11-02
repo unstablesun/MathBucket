@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayfieldManager : MonoBehaviour 
 {
@@ -18,6 +19,9 @@ public class PlayfieldManager : MonoBehaviour
 	};
 	public ePlayfieldState _playfieldState = ePlayfieldState.init;
 
+	public TextMeshProUGUI _inGameScoreText;
+	public TextMeshProUGUI _inGameLevelText;
+
 	private GameObject EndGameOverlay = null;
 	private GameObject StartGameOverlay = null;
 	private GameObject GamePlayOverlay = null;
@@ -27,6 +31,16 @@ public class PlayfieldManager : MonoBehaviour
 
 	private float _elaspedTime = 0.0f;
 	private float _puzzleResultsTime = 0.1f;
+
+
+	public static PlayfieldManager Instance;
+
+	void Awake () 
+	{
+		Instance = this;
+
+	}
+
 
 	void Start () 
 	{
@@ -70,11 +84,13 @@ public class PlayfieldManager : MonoBehaviour
 				SetCircularLoadAmount(1.0f);
 				break;
 
-			case ePlayfieldState.gameplay:
+		case ePlayfieldState.gameplay:
 
 				//get timing value from gameplay manager
 
-				float remainingTime = GameCommon.getGameplayManagerClass().GetPuzzleTimeLeft();
+				//float remainingTime = GameCommon.getGameplayManagerClass ().GetPuzzleTimeLeft ();
+				float remainingTime = GameplayManager.Instance.GetPuzzleTimeLeft ();
+
 				SetCircularLoadAmount(remainingTime);
 
 				break;
@@ -98,8 +114,8 @@ public class PlayfieldManager : MonoBehaviour
 					//start next puzzle - call gameplay manager
 					Debug.Log ("_playfieldState : StartNextPuzzle");
 
-					GameCommon.getGameplayManagerClass().StartNextPuzzle();
-
+					//GameCommon.getGameplayManagerClass().StartNextPuzzle();
+					GameplayManager.Instance.StartNextPuzzle();
 					_playfieldState = ePlayfieldState.gameplay;
 
 					_elaspedTime = 0.0f;
@@ -152,9 +168,11 @@ public class PlayfieldManager : MonoBehaviour
 
 		_playfieldState = ePlayfieldState.gameplay;
 
-		GameCommon.getGameplayManagerClass()._gameDifficulty = GameplayManager.eGameDifficulty.hard;
+		//GameCommon.getGameplayManagerClass()._gameDifficulty = GameplayManager.eGameDifficulty.hard;
+		GameplayManager.Instance._gameDifficulty = GameplayManager.eGameDifficulty.hard;
 
-		GameCommon.getGameplayManagerClass().StartGame();
+		//GameCommon.getGameplayManagerClass().StartGame();
+		GameplayManager.Instance.StartGame();
 	}
 
 	//this gets called by the GUI button "Results"
@@ -183,6 +201,10 @@ public class PlayfieldManager : MonoBehaviour
 
 	private void SetOverlayScoreAndLevel (int score, int level) 
 	{
+		_inGameScoreText.SetText ("Score : " + score.ToString());
+		_inGameLevelText.SetText ("Level : " + level.ToString());
+
+		/*
 		Text[] texts = GamePlayOverlay.GetComponentsInChildren<Text>();
 		foreach (Text text in texts)
 		{
@@ -199,10 +221,12 @@ public class PlayfieldManager : MonoBehaviour
 				text.text = "Level : " + level;
 			}
 		}
+		*/
 	}
 
 	private void SetCircularLoadAmount (float amount) 
 	{
+		//Debug.Log ("amount = " + amount);
 		if(BlitzMeterDial != null) {
 			Image[] images = BlitzMeterDial.GetComponentsInChildren<Image>();
 			foreach (Image image in images)
