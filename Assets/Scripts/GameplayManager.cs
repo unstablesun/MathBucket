@@ -7,12 +7,11 @@ public class GameplayManager : MonoBehaviour
 
 	public enum eGameDifficulty 
 	{
-		learning,
 		easy,
 		hard,
-		genius,
+		expert,
 	};
-	public eGameDifficulty _gameDifficulty = eGameDifficulty.easy;
+	static public eGameDifficulty _gameDifficulty = eGameDifficulty.easy;
 
 	public enum eGameState 
 	{
@@ -47,7 +46,10 @@ public class GameplayManager : MonoBehaviour
 	private float _puzzleDurationTime = 0f;
 	private float _singleEquationTime = 15.0f;
 	private float _difficultyMult = 1f;
+	private float _roundMult = 1.1f;
 	private int _gameLevel = 1;
+	private int _roundLevel = 0;
+	private int _roundScore = 0;
 	private int _gameScore = 0;
 	private int _repeatPuzzle = 0;
 
@@ -71,23 +73,31 @@ public class GameplayManager : MonoBehaviour
 	{
 		_gameLevel = 1;
 		_gameScore = 0;
+		_roundScore = 0;
+		_roundMult = 1.1f;
 		_gameState = eGameState.init;
 	}
 
 
 	public void StartGame () 
 	{
+		//set difficuly data & layout
+
+		if (_gameDifficulty == eGameDifficulty.easy) {
+
+
+		} else if (_gameDifficulty == eGameDifficulty.easy) {
+
+
+		} else if (_gameDifficulty == eGameDifficulty.easy) {
+
+
+		}
+
+
 
 		_gameState = eGameState.selectFormulas;
 
-
-		//select random paramters based on difficulty
-
-		//int difficulty = 1;
-
-		//bool parameterStrict = true;
-
-		//set default values
 		int minMaxThres = 4;
 		int min = 1;
 		int max = 5;
@@ -110,17 +120,11 @@ public class GameplayManager : MonoBehaviour
 			max = 8;
 			
 		}
-		else if (_gameDifficulty == eGameDifficulty.genius) 
+		else if (_gameDifficulty == eGameDifficulty.expert) 
 		{
 			min = 0;
 			max = 12;
 			
-		}
-		else if (_gameDifficulty == eGameDifficulty.learning) 
-		{
-			prefProb = 100;
-			sameProb = 100;
-
 		}
 
 		SetupPuzzleCurveData (minMaxThres, min, max, //minMaxThreshold, min, max
@@ -129,8 +133,16 @@ public class GameplayManager : MonoBehaviour
 
 	}
 
+	//public void SetGameDifficulty (eGameDifficulty diff) 
+	//{
+	//	_gameDifficulty = diff;
+	//}
+
 	public void PuzzleCompete (int score) 
 	{
+
+		PlayfieldManager.Instance.SetOverlayBaseScoreValue (score);
+
 		//get time bonus
 		float remainingTime = 1.0f;
 		float rtime = _puzzleDurationTime - _elaspedPuzzleTime;
@@ -142,15 +154,19 @@ public class GameplayManager : MonoBehaviour
 		int ibonus = Mathf.RoundToInt (bonus);
 		if (ibonus < 1)
 			ibonus = 1;
+
+		PlayfieldManager.Instance.SetOverlayBlitzMultValue (ibonus);
 		
 		Debug.LogError ("ibonus = " + ibonus);
 
 		float fScore = (float)(score * ibonus);
 
 		fScore *= _difficultyMult;
+		fScore *= _roundMult;
 
 		int pScore = Mathf.RoundToInt (fScore);
 
+		_roundScore = (int)pScore;
 		_gameScore += (int)pScore;
 		_gameState = eGameState.puzzleResults;
 		
@@ -190,13 +206,30 @@ public class GameplayManager : MonoBehaviour
 			break;
 
 		case eGameState.selectFormulas:
-			AdvancePuzzleCurve(true);
+
+			if (_gameDifficulty == eGameDifficulty.easy) {
+				AdvancePuzzleCurve(true, mPuzzleLevelData);
+			} else if (_gameDifficulty == eGameDifficulty.hard) {
+				AdvancePuzzleCurve(true, mPuzzleLevelData2);
+			} else if (_gameDifficulty == eGameDifficulty.expert) {
+				AdvancePuzzleCurve(true, mPuzzleLevelData3);
+			}
+
 			_gameState = eGameState.puzzleReady;
+
 			break;
 
 		case eGameState.replayFormulas:
-			AdvancePuzzleCurve(false);
+			
+			if (_gameDifficulty == eGameDifficulty.easy) {
+				AdvancePuzzleCurve(false, mPuzzleLevelData);
+			} else if (_gameDifficulty == eGameDifficulty.hard) {
+				AdvancePuzzleCurve(false, mPuzzleLevelData2);
+			} else if (_gameDifficulty == eGameDifficulty.expert) {
+				AdvancePuzzleCurve(false, mPuzzleLevelData3);
+			}
 			_gameState = eGameState.puzzleReady;
+
 			break;
 
 		case eGameState.puzzleReady:
@@ -229,7 +262,7 @@ public class GameplayManager : MonoBehaviour
 			Debug.Log ("eGameState.puzzleResults");
 
 			//GameCommon.getPlayfieldManagerClass().SetPuzzleResults(_gameScore, _gameLevel+1);
-			PlayfieldManager.Instance.SetPuzzleResults(_gameScore, _gameLevel+1);
+			PlayfieldManager.Instance.SetPuzzleResults(_gameScore, _roundScore);
 
 			_gameState = eGameState.waitingForPlayfield;
 			break;
@@ -279,7 +312,7 @@ public class GameplayManager : MonoBehaviour
 	public PuzzleLevelData[] mPuzzleLevelData2 = null;
 	public PuzzleLevelData[] mPuzzleLevelData3 = null;
 
-	private PuzzleLevelData[] mPuzzleLevelDataX = null;
+	//private PuzzleLevelData[] mPuzzleLevelDataX = null;
 
 	private PuzzleCurveData mPuzzleCurveData;
 
@@ -301,26 +334,26 @@ public class GameplayManager : MonoBehaviour
 		mPuzzleCurveData.numEquationsCap = numEquationsCap;
 	}
 
-	private void AdvancePuzzleCurve (bool setRepeats) 
+	private void AdvancePuzzleCurve (bool setRepeats, PuzzleLevelData[] mPuzzleLevelDataX) 
 	{
 		FormulaFactory.eOperandBias operand = FormulaFactory.eOperandBias.forcePlus;
 		FormulaFactory.eOperandBias firstOperand = FormulaFactory.eOperandBias.forcePlus;
 
 		Debug.Log ("AdvancePuzzleCurve : _gameLevel = " + _gameLevel);
 		int index = _gameLevel - 1;
-		int minRange = mPuzzleLevelData [index].MinRange;
-		int maxRange = mPuzzleLevelData [index].MaxRange;
+		int minRange = mPuzzleLevelDataX [index].MinRange;
+		int maxRange = mPuzzleLevelDataX [index].MaxRange;
 
-		FormulaFactory.eOperandBias operatorPrimary = mPuzzleLevelData [index].OperatorPreference;
-		int operatorPreferenceProb = mPuzzleLevelData [index].OperatorPreferenceProb;
-		int sameOperatorProb = mPuzzleLevelData [index].SameOperatorProb;
+		FormulaFactory.eOperandBias operatorPrimary = mPuzzleLevelDataX [index].OperatorPreference;
+		int operatorPreferenceProb = mPuzzleLevelDataX [index].OperatorPreferenceProb;
+		int sameOperatorProb = mPuzzleLevelDataX [index].SameOperatorProb;
 
-		int numEquations = mPuzzleLevelData[index].NumEquations;
+		int numEquations = mPuzzleLevelDataX[index].NumEquations;
 
-		FormulaFactory.eOperandBias operatorSecondary = mPuzzleLevelData [index].OperatorSecondary;
+		FormulaFactory.eOperandBias operatorSecondary = mPuzzleLevelDataX [index].OperatorSecondary;
 
 		if (setRepeats == true) {
-			_repeatPuzzle = mPuzzleLevelData [index].Repeats;
+			_repeatPuzzle = mPuzzleLevelDataX [index].Repeats;
 		}
 
 		for (int i = 0; i < numEquations; i++) 
@@ -385,16 +418,21 @@ public class GameplayManager : MonoBehaviour
 		}
 
 
-		eBlitzMeterLevel bLevel = mPuzzleLevelData [index].BlitzMeterLevel;
+		eBlitzMeterLevel bLevel = mPuzzleLevelDataX [index].BlitzMeterLevel;
 
 		int[] starttimes = {30,26,22,18,12,10,8,6,4};
 		_singleEquationTime = starttimes[(int)bLevel];
 
-		float[] diffMults = {1f,1.2f,1.5f,1.8f,2f,2.5f,3f,3.5f,4f};
+		float[] diffMults = {1.1f,1.2f,1.5f,1.8f,2f,2.5f,3f,3.5f,4f};
 		_difficultyMult = diffMults[(int)bLevel];
 
 		_elaspedPuzzleTime = 0.0f;
 		_puzzleDurationTime = _singleEquationTime * (float)numEquations;
+
+		_roundLevel++;
+		PlayfieldManager.Instance.SetOverlayPregameValues (_difficultyMult, _roundMult, _roundLevel);
+
+		_roundMult += 0.1f;
 
 	}
 

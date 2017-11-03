@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayfieldManager : MonoBehaviour 
 {
@@ -20,7 +21,12 @@ public class PlayfieldManager : MonoBehaviour
 	public ePlayfieldState _playfieldState = ePlayfieldState.init;
 
 	public TextMeshProUGUI _inGameScoreText;
-	public TextMeshProUGUI _inGameLevelText;
+	public TextMeshProUGUI _inGameRoundText;
+	public TextMeshProUGUI _inGameBaseScoreText;
+	public TextMeshProUGUI _inGameDiffMultText;
+	public TextMeshProUGUI _inGameRoundMultText;
+	public TextMeshProUGUI _inGameRoundScoreText;
+	public TextMeshProUGUI _inGameBlitzMultText;
 
 	private GameObject EndGameOverlay = null;
 	private GameObject StartGameOverlay = null;
@@ -31,6 +37,7 @@ public class PlayfieldManager : MonoBehaviour
 
 	private float _elaspedTime = 0.0f;
 	private float _puzzleResultsTime = 0.1f;
+
 
 
 	public static PlayfieldManager Instance;
@@ -132,8 +139,9 @@ public class PlayfieldManager : MonoBehaviour
 
 	public void SetMatchOverWithScore (int score) 
 	{
-		if (EndGameOverlay != null)
-			EndGameOverlay.SetActive(true);
+		if (EndGameOverlay != null) {
+			EndGameOverlay.SetActive (true);
+		}
 
 
 		SetOverlayFinalScore(score);
@@ -148,7 +156,8 @@ public class PlayfieldManager : MonoBehaviour
 	public void SetPuzzleResults (int score, int level) 
 	{
 		_playfieldState = ePlayfieldState.displayResults;
-		SetOverlayScoreAndLevel(score, level);
+
+		SetOverlayPostGameValues(score, level);
 	}
 
 
@@ -164,23 +173,16 @@ public class PlayfieldManager : MonoBehaviour
 		if (GamePlayOverlay != null)
 			GamePlayOverlay.SetActive(true);
 
-
-
 		_playfieldState = ePlayfieldState.gameplay;
 
-		//GameCommon.getGameplayManagerClass()._gameDifficulty = GameplayManager.eGameDifficulty.hard;
-		GameplayManager.Instance._gameDifficulty = GameplayManager.eGameDifficulty.hard;
-
-		//GameCommon.getGameplayManagerClass().StartGame();
 		GameplayManager.Instance.StartGame();
 	}
 
 	//this gets called by the GUI button "Results"
 	public void GotoMainMenu () 
 	{
-		MainMenuHandler.sComingFromGame = true;
 
-		Application.LoadLevel("MainMenu");
+		SceneManager.LoadScene("MainMenu");
 	}
 
 
@@ -199,30 +201,30 @@ public class PlayfieldManager : MonoBehaviour
 	}
 
 
-	private void SetOverlayScoreAndLevel (int score, int level) 
+	private void SetOverlayPostGameValues(int score, int roundScore) 
 	{
 		_inGameScoreText.SetText ("Score : " + score.ToString());
-		_inGameLevelText.SetText ("Level : " + level.ToString());
-
-		/*
-		Text[] texts = GamePlayOverlay.GetComponentsInChildren<Text>();
-		foreach (Text text in texts)
-		{
-			Debug.Log ("text found = " + text.name);
-			if(text.name == "InGameScoreText")
-			{
-				//text.enabled = enabled;
-				text.text = "Score : " + score;
-			}
-
-			if(text.name == "InGameLevelText")
-			{
-				//text.enabled = enabled;
-				text.text = "Level : " + level;
-			}
-		}
-		*/
+		_inGameRoundScoreText.SetText ("= " + roundScore.ToString());
 	}
+
+	public void SetOverlayPregameValues (float diffMult, float roundMult, int level) 
+	{
+		_inGameDiffMultText.SetText ("* " + diffMult.ToString());
+		_inGameRoundMultText.SetText ("* " + roundMult.ToString());
+		_inGameRoundText.SetText ("Round : " + level.ToString());
+	}
+
+	public void SetOverlayBaseScoreValue (int baseScore) 
+	{
+		_inGameBaseScoreText.SetText (baseScore.ToString() + " *");
+	}
+
+	public void SetOverlayBlitzMultValue (int mult) 
+	{
+		_inGameBlitzMultText.SetText (mult.ToString());
+	}
+
+
 
 	private void SetCircularLoadAmount (float amount) 
 	{

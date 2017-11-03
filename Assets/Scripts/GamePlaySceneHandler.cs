@@ -17,19 +17,16 @@ public class GamePlaySceneHandler : MonoBehaviour
 	
 	public void SetWin()
 	{
-		MainMenuHandler.sComingFromGame = true;
 
 		//GameCommon.getFuelHandlerClass ().SetMatchScore (1);
 
-		Application.LoadLevel("Title");
 	}
 	public void SetLose()
 	{
-		MainMenuHandler.sComingFromGame = true;
 
 		//GameCommon.getFuelHandlerClass ().SetMatchScore (0);
 
-		Application.LoadLevel("Title");
+		//Application.LoadLevel("Title");
 	}
 
 

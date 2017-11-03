@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class PuzzleLevelData
 {
 	[SerializeField]
-	private int difficulty;
+	private float difficulty;
 
 	[SerializeField]
 	private int minRange;
@@ -36,7 +36,7 @@ public class PuzzleLevelData
 	private GameplayManager.eBlitzMeterLevel blitzMeterLevel;
 
 
-	public int Difficulty
+	public float Difficulty
 	{
 		get { return difficulty; }
 		set { difficulty = value; }
