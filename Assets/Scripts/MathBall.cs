@@ -6,6 +6,8 @@ public class MathBall : MonoBehaviour
 {
 	public AudioSource sfxSelected = null;
 
+	public Color SelectedColor;
+
 	public enum eFunction 
 	{
 		Digit,
@@ -158,7 +160,7 @@ public class MathBall : MonoBehaviour
 		}
 		else
 		{
-			setBallHiliteColor(new Color(1.0f, 0.2f, 0.1f, 1f));
+			setBallHiliteColor(new Color(1.0f, 0.0f, 0.0f, 1f));
 			_state = eState.Selected;
 
 			if(sfxSelected != null)

@@ -28,10 +28,15 @@ public class PlayfieldManager : MonoBehaviour
 	public TextMeshProUGUI _inGameRoundScoreText;
 	public TextMeshProUGUI _inGameBlitzMultText;
 
+	public GameObject PlayFieldEasy = null;
+	public GameObject PlayFieldHard = null;
+	public GameObject PlayFieldExpert = null;
+
 	private GameObject EndGameOverlay = null;
 	private GameObject StartGameOverlay = null;
 	private GameObject GamePlayOverlay = null;
 	private GameObject GameBackingOverlay = null;
+
 
 	public GameObject BlitzMeterDial = null;
 
@@ -76,6 +81,30 @@ public class PlayfieldManager : MonoBehaviour
 		}
 
 		_playfieldState = ePlayfieldState.waitingToStart;
+
+
+
+		if (GamePlayOverlay != null)
+			GamePlayOverlay.SetActive(true);
+		
+		if (GameplayManager._gameDifficulty == GameplayManager.eGameDifficulty.easy) {
+		
+			PlayFieldEasy.SetActive (true);
+			PlayFieldHard.SetActive (false);
+			//PlayFieldExpert.SetActive (false);
+
+		} else if (GameplayManager._gameDifficulty == GameplayManager.eGameDifficulty.hard) {
+
+			PlayFieldEasy.SetActive (false);
+			PlayFieldHard.SetActive (true);
+			//PlayFieldExpert.SetActive (false);
+
+		} else if (GameplayManager._gameDifficulty == GameplayManager.eGameDifficulty.expert) {
+		
+			PlayFieldEasy.SetActive (false);
+			PlayFieldHard.SetActive (false);
+			//PlayFieldExpert.SetActive (true);
+		}
 
 	}
 	
